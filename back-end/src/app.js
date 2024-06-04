@@ -3,7 +3,10 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 const app = express();
+const testRouter = require('./routes/test');
+
 const port = process.env.PORT || 3000;
+
 
 async function connectToDatabase() {
     try {
@@ -35,3 +38,7 @@ app.use((req,res,next)=>{
     res.header('Allow','GET, PUT, POST, DELETE, OPTIONS');
     next();
 });
+
+app.use('/api', testRouter);
+
+module.exports = app;
