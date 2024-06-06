@@ -4,7 +4,18 @@ const jwt = require('jsonwebtoken');
 
 
 const registerCollaboratorAdmin = async (req, res) => {
-    console.log(req);
+    const data = req.body;
+    try {
+        data.fullname = `${data.name} ${data.surname}`;
+        const collaborator = await Collaborator.create(data);
+        res.status(201).json({ data: collaborator });
+
+    } catch (error) {
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+
+    
+    //console.log(req);
 }
 
 module.exports = {
