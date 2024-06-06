@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 
 const app = express();
 const testRouter = require('./routes/test');
+const collaboratorRouter = require('./routes/collaborator');
+
 
 const port = process.env.PORT || 3000;
 
@@ -40,5 +42,6 @@ app.use((req,res,next)=>{
 });
 
 app.use('/api', testRouter);
+app.use('/api', collaboratorRouter);
 
 module.exports = app;
