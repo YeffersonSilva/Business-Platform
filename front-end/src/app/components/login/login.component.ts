@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { CollaboratorService } from 'src/app/services/collaborator.service';
 declare var $: any;
 @Component({
@@ -9,7 +10,11 @@ declare var $: any;
 export class LoginComponent implements OnInit {
   public user: any = {};
 
-  constructor(private _collaboratorService: CollaboratorService) { }
+  constructor(
+    private _collaboratorService: CollaboratorService,
+    private router: Router
+
+  ) { }
 
   ngOnInit(): void { }
 
@@ -67,6 +72,8 @@ export class LoginComponent implements OnInit {
             else {
               localStorage.setItem('token', response.token);
               localStorage.setItem('user', JSON.stringify(response.data));
+              localStorage.setItem('_id', response.data._id);
+              this.router.navigate(['/dashboard']);
 
             }
           }
