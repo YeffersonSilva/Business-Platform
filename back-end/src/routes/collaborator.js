@@ -6,6 +6,6 @@ var loginCollaborator = require('../controllers/collaboratorController');
 const app = express();
 
 app.post('/registerCollaboratorAdmin', registerCollaboratorAdmin.registerCollaboratorAdmin);
-app.post('/loginCollaborator', loginCollaborator.loginCollaborator);
+app.post('/loginCollaboratorAdmin', loginCollaborator.loginCollaborator);
 
 module.exports = app;
