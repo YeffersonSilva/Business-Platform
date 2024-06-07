@@ -8,7 +8,11 @@ declare var $: any;
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  public user: any = {};
+  public user: any = {
+    email: '',
+    password: '',
+  };
+  public token: any= localStorage.getItem('token');
 
   constructor(
     private _collaboratorService: CollaboratorService,
@@ -16,7 +20,12 @@ export class LoginComponent implements OnInit {
 
   ) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    if(this.token){
+      this.router.navigate(['/dashboard']);
+    }
+
+  }
 
   login() {
       if (!this.user.email) {
