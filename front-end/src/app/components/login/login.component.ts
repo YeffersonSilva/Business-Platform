@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CollaboratorService } from 'src/app/services/collaborator.service';
 declare var $: any;
 @Component({
   selector: 'app-login',
@@ -8,16 +9,13 @@ declare var $: any;
 export class LoginComponent implements OnInit {
   public user: any = {};
 
-  constructor() {}
+  constructor(private _collaboratorService: CollaboratorService) {}
 
   ngOnInit(): void {}
 
   login() {
-
- if (!this.user.email) {
-
-
-    $.notify('You must enter the email', {
+    if (!this.user.email) {
+      $.notify('You must enter the email', {
         type: 'danger',
         spacing: 10,
         timer: 2000,
@@ -46,8 +44,15 @@ export class LoginComponent implements OnInit {
           exit: 'animated ' + 'bounce',
         },
       });
+    } else {
+      this._collaboratorService.loginCollaboratorAdmin(this.user).subscribe(
+        (response) => {
+          console.log(response);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     }
-    else   {console.log(this.user);
-}
   }
 }
