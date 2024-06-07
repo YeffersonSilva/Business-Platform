@@ -7,7 +7,7 @@ const testRouter = require('./routes/test');
 const collaboratorRouter = require('./routes/collaborator');
 
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 
 
 async function connectToDatabase() {
