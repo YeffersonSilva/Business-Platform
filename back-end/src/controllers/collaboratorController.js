@@ -35,18 +35,24 @@ const loginCollaborator = async (req, res) => {
         const collaborator = await Collaborator.find({ email: data.email });
 
         if (collaborator.length > 0) {
-            bcrypt.compare(data.password, collaborator[0].password, (err, check) => {
-                if (err) {
-                    return res.status(500).send({ data: undefined, message: 'Internal server error during password comparison' });
-                }
+            if (collaborator[0].state) {
+                bcrypt.compare(data.password, collaborator[0].password, (err, check) => {
+                    if (err) {
+                        return res.status(500).send({ data: undefined, message: 'Internal server error during password comparison' });
+                    }
+    
+                    if (check) {
+                        const token = jwt.createToken(collaborator[0]);
+                        return res.status(200).send({ message: 'Login successful', data: collaborator[0], token: token });
+                    } else {
+                        return res.status(400).send({ data: undefined, message: 'Incorrect password' });
+                    }
+                });
+            }else{
+                res.status(400).send({ data: undefined, message: 'This user no longer exists' });
+            }
 
-                if (check) {
-                    const token = jwt.createToken(collaborator[0]);
-                    return res.status(200).send({ message: 'Login successful', data: collaborator[0], token: token });
-                } else {
-                    return res.status(400).send({ data: undefined, message: 'Incorrect password' });
-                }
-            });
+          
         } else {
             return res.status(400).send({ data: undefined, message: 'User does not exist' });
         }
