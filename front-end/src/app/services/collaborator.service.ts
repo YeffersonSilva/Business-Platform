@@ -17,4 +17,10 @@ export class CollaboratorService {
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this._http.post(this.url + 'loginCollaboratorAdmin', data, { headers: headers });
   }
+  registerCollaboratorAdmin(data : any): Observable<any> {
+    let headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this._http.post(this.url + 'registerCollaboratorAdmin', data, { headers: headers });
+  }
+
+
 }
