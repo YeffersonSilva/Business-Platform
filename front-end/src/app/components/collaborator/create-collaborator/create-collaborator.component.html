@@ -55,25 +55,25 @@
 
                                           <!--begin::Group-->
                                           <div class="form-group row">
-                                              <label class="col-xl-3 col-lg-3 col-form-label">Nombres</label>
+                                              <label class="col-xl-3 col-lg-3 col-form-label">Nombres (*)</label>
                                               <div class="col-lg-9 col-xl-9">
-                                                  <input class="form-control form-control-solid form-control-lg" name="name" type="text" [(ngModel)]="collaborator.name" placeholder="Nombres"/>
+                                                  <input  required class="form-control form-control-solid form-control-lg" name="name" type="text" [(ngModel)]="collaborator.name" placeholder="Nombres"/>
                                               </div>
                                           </div>
                                           <!--end::Group-->
                                           <!--begin::Group-->
                                           <div class="form-group row">
-                                              <label class="col-xl-3 col-lg-3 col-form-label">Apellidos</label>
+                                              <label class="col-xl-3 col-lg-3 col-form-label">Apellidos (*)</label>
                                               <div class="col-lg-9 col-xl-9">
-                                                  <input class="form-control form-control-solid form-control-lg" name="lastname" type="text" [(ngModel)]="collaborator.lastname" placeholder="Apellidos"/>
+                                                  <input required class="form-control form-control-solid form-control-lg" name="lastname" type="text" [(ngModel)]="collaborator.lastname" placeholder="Apellidos"/>
                                               </div>
                                           </div>
                                           <!--end::Group-->
                                           <!--begin::Group-->
                                           <div class="form-group row">
-                                              <label class="col-xl-3 col-lg-3 col-form-label">Género</label>
+                                              <label class="col-xl-3 col-lg-3 col-form-label">Género (*)</label>
                                               <div class="col-lg-9 col-xl-9">
-                                                  <select name="gender" [(ngModel)]="collaborator.gender" class="form-control form-control-solid form-control-lg">
+                                                  <select required name="gender" [(ngModel)]="collaborator.gender" class="form-control form-control-solid form-control-lg">
                                                       <option value="" selected disabled>Seleccionar</option>
                                                       <option value="Masculino">Masculino</option>
                                                       <option value="Femenino">Femenino</option>
@@ -83,9 +83,9 @@
                                           <!--end::Group-->
                                           <!--begin::Group-->
                                           <div class="form-group row">
-                                              <label class="col-xl-3 col-lg-3 col-form-label">Correo electrónico</label>
+                                              <label class="col-xl-3 col-lg-3 col-form-label">Correo electrónico (*)</label>
                                               <div class="col-lg-9 col-xl-9">
-                                                  <input class="form-control form-control-solid form-control-lg" name="email" [(ngModel)]="collaborator.email" type="email" placeholder="Correo electrónico"/>
+                                                  <input required class="form-control form-control-solid form-control-lg" name="email" [(ngModel)]="collaborator.email" type="email" placeholder="Correo electrónico"/>
                                               </div>
                                           </div>
                                           <!--end::Group-->
@@ -121,7 +121,7 @@
                                           <!--end::Group-->
                                           <!--begin::Group-->
                                           <div class="form-group row">
-                                              <label class="col-xl-3 col-lg-3 col-form-label">Cargo</label>
+                                              <label class="col-xl-3 col-lg-3 col-form-label">Cargo (*)</label>
                                               <div class="col-lg-9 col-xl-9">
                                                   <select name="rol" [(ngModel)]="collaborator.rol" class="form-control form-control-solid form-control-lg">
                                                       <option value="" selected disabled>Seleccionar</option>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+declare var $: any;
 
 @Component({
   selector: 'app-create-collaborator',
@@ -20,7 +20,26 @@ export class CreateCollaboratorComponent implements OnInit {
   }
 
   registerCollaborator(registerForm:any) {
-    console.log(this.collaborator);
+
+    if (registerForm.valid) {
+      console.log(this.collaborator);
+    } else {
+      $.notify('Complete el formulario', {
+        type: 'danger',
+        spacing: 10,
+        timer: 2000,
+        placement: {
+          from: 'top',
+          align: 'right',
+        },
+        delay: 1000,
+        animate: {
+          enter: 'animated ' + 'bounce',
+          exit: 'animated ' + 'bounce',
+        },
+      });
+    }
+
   }
 
 }
