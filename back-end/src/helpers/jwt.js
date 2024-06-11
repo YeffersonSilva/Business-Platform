@@ -12,7 +12,7 @@ exports.createToken = (user) => {
         email: user.email,
         rol: user.rol,
         iat: moment().unix(),
-        exp: moment().add(1, 'hour').unix()
+        exp: moment().add(1, 'day').unix()
     }
     return jwt.sign(payload, jwtSecret);
 }

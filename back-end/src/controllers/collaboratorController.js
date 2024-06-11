@@ -4,6 +4,8 @@ const bcrypt = require("bcrypt-nodejs");
 const jwt = require("../helpers/jwt");
 
 const registerCollaboratorAdmin = async (req, res) => {
+ if(req.user){
+ 
   const data = req.body;
 
   // Validación de campos requeridos
@@ -62,6 +64,10 @@ const registerCollaboratorAdmin = async (req, res) => {
         data: undefined,
         message: "Internal server error during registration",
       });
+   }
+  }
+  else{
+    return res.status(401).send({ message: "Unauthorized" });
   }
 };
 
