@@ -56,10 +56,11 @@
                               <div class="row align-items-center">
                                   <div class="col-md-6 my-2 my-md-0">
                                       <div class="input-group">
-                                          <input type="text" class="form-control" placeholder="Search for...">
-                                          <div class="input-group-append">
-                                              <button class="btn btn-primary" type="button">Go!</button>
-                                          </div>
+                                        <input type="text" class="form-control" placeholder="Search for..." name="filtro" [(ngModel)]="filtro">
+                                        <div class="input-group-append">
+                                          <button class="btn btn-primary" type="button" (click)="filtrar()">Go!</button>
+                                        </div>
+
                                       </div>
                                   </div>
 
@@ -79,7 +80,7 @@
                                               <span class="text-dark-75">Nombres</span>
                                           </th>
                                           <th style="min-width: 100px">Correo</th>
-                                          <th style="min-width: 100px">Telefono</th>
+                                          <th style="min-width: 100px">Estado</th>
                                           <th style="min-width: 100px">Rol</th>
 
                                           <th style="min-width: 80px"></th>
