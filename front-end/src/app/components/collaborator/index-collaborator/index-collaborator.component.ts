@@ -8,8 +8,12 @@ declare var $: any;
 })
 export class IndexCollaboratorComponent implements OnInit {
 
-  public token= localStorage.getItem('token');
+  public token = localStorage.getItem('token');
   public collaborators: Array<any> = [];
+  public collaborators_const: Array<any> = [];
+
+  public filtro = '';
+
   constructor(
     private _collaboratorService: CollaboratorService,
 
@@ -28,6 +32,7 @@ export class IndexCollaboratorComponent implements OnInit {
           this.showNotification('Error al cargar los colaboradores', 'danger');
         } else {
           this.collaborators = response.data;
+          this.collaborators_const = this.collaborators;
         }
       },
       error => {
@@ -50,5 +55,14 @@ export class IndexCollaboratorComponent implements OnInit {
         exit: 'animated bounce'
       }
     });
+  }
+  filtrar() {
+    if (this.filtro) {
+      var term = new RegExp(this.filtro, 'i');
+      this.collaborators = this.collaborators_const.filter(item => term.test(item.name) || term.test(item.lastname) || term.test(item.email));
+    }
+    else {
+      this.collaborators = this.collaborators_const;
+    }
   }
 }
