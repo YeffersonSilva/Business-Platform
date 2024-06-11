@@ -1,12 +1,12 @@
 const express = require('express');
 
-var registerCollaboratorAdmin = require('../controllers/collaboratorController');
-var loginCollaborator = require('../controllers/collaboratorController');
+var collaborator = require('../controllers/collaboratorController');
 var authenticate = require('../middlerwares/authenticate');
 
 const app = express();
 
-app.post('/registerCollaboratorAdmin',authenticate.authenticate, registerCollaboratorAdmin.registerCollaboratorAdmin);
-app.post('/loginCollaboratorAdmin', loginCollaborator.loginCollaborator);
+app.post('/registerCollaboratorAdmin',authenticate.authenticate, collaborator.registerCollaboratorAdmin);
+app.post('/loginCollaboratorAdmin', collaborator.loginCollaborator);
+app.get('/getCollaborators',authenticate.authenticate, collaborator.getCollaborators);
 
 module.exports = app;

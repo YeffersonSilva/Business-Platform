@@ -128,7 +128,30 @@ const loginCollaborator = async (req, res) => {
   }
 };
 
+const getCollaborators = async (req, res) => {
+  if(req.user){
+  try {
+    const collaborators = await Collaborator.find();
+    res.status(200).send({ data: collaborators });
+  } catch (error) {
+    res
+      .status(500)
+      .send({
+        data: undefined,
+        message: "Internal server error during collaborators query",
+      });
+  }
+  }
+  else{
+    return res.status(401).send({ message: "Unauthorized" });
+  }
+
+
+
+}
+
 module.exports = {
   registerCollaboratorAdmin,
   loginCollaborator,
+  getCollaborators,
 };
