@@ -19,6 +19,7 @@ export class CreateCollaboratorComponent implements OnInit {
     gender: '',
     country: ''
   };
+  public btnRegister = false;
 
   constructor(
     private _collaboratorService: CollaboratorService,
@@ -29,13 +30,18 @@ export class CreateCollaboratorComponent implements OnInit {
   }
 
   registerCollaborator(registerForm: any) {
+    this.btnRegister = true;
     if (registerForm.valid) {
+      this.btnRegister = true;
+
       console.log(this.collaborator); // Para depuración
       this._collaboratorService.registerCollaboratorAdmin(this.collaborator).subscribe(
         response => {
           if (response == undefined || !response.data) {
             this.showNotification('Complete el formulario', 'danger');
-          } else {
+          } else { setTimeout(() => {
+            this.btnRegister = false;
+          },3000);
             this.showNotification('Colaborador registrado con éxito', 'success');
             this._router.navigate(['/collaborator']);
           }
@@ -43,8 +49,10 @@ export class CreateCollaboratorComponent implements OnInit {
         error => {
           this.showNotification('Error en el registro: ' + error.message, 'danger');
         }
-      );
+      );    this.btnRegister = false;
+
     } else {
+
       this.showNotification('Complete el formulario', 'danger');
     }
   }
