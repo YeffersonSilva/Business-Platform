@@ -20,6 +20,7 @@ export class CreateCollaboratorComponent implements OnInit {
     country: ''
   };
   public btnRegister = false;
+  public token: any= localStorage.getItem('token');
 
   constructor(
     private _collaboratorService: CollaboratorService,
@@ -35,7 +36,7 @@ export class CreateCollaboratorComponent implements OnInit {
       this.btnRegister = true;
 
       console.log(this.collaborator); // Para depuración
-      this._collaboratorService.registerCollaboratorAdmin(this.collaborator).subscribe(
+      this._collaboratorService.registerCollaboratorAdmin(this.collaborator, this.token).subscribe(
         response => {
           if (response == undefined || !response.data) {
             this.showNotification('Complete el formulario', 'danger');

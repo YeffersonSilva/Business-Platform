@@ -13,13 +13,18 @@ export class CollaboratorService {
     console.log(this.url);
   }
 
-  loginCollaboratorAdmin(data : any): Observable<any> {
+  loginCollaboratorAdmin(data : any ): Observable<any> {
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this._http.post(this.url + 'loginCollaboratorAdmin', data, { headers: headers });
   }
-  registerCollaboratorAdmin(data : any): Observable<any> {
-    let headers = new HttpHeaders().set('Content-Type', 'application/json');
+  registerCollaboratorAdmin(data : any, token: any): Observable<any> {
+    let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': token})
     return this._http.post(this.url + 'registerCollaboratorAdmin', data, { headers: headers });
+  }
+
+  getCollaborators(token : any): Observable<any> {
+    let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': token})
+    return this._http.get(this.url + 'getCollaborators',  { headers: headers });
   }
 
 
