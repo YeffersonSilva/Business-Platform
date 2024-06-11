@@ -9,14 +9,15 @@ declare var $: any;
 export class IndexCollaboratorComponent implements OnInit {
 
   public token= localStorage.getItem('token');
-
+  public collaborators: Array<any> = [];
   constructor(
     private _collaboratorService: CollaboratorService,
-    
+
 
   ) { }
 
   ngOnInit(): void {
+    this.init_data();
   }
 
 
