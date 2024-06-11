@@ -3,6 +3,7 @@ const Collaborator = require("../models/Collaborator");
 const bcrypt = require("bcrypt-nodejs");
 const jwt = require("../helpers/jwt");
 
+// Register collaborator
 const registerCollaboratorAdmin = async (req, res) => {
  if(req.user){
  
@@ -70,7 +71,7 @@ const registerCollaboratorAdmin = async (req, res) => {
     return res.status(401).send({ message: "Unauthorized" });
   }
 };
-
+// Login collaborator
 const loginCollaborator = async (req, res) => {
   const data = req.body;
 
@@ -127,8 +128,9 @@ const loginCollaborator = async (req, res) => {
       .send({ data: undefined, message: "Internal server error during login" });
   }
 };
-
+// Get all collaborators
 const getCollaborators = async (req, res) => {
+  // Validar si el usuario está autenticado
   if(req.user){
   try {
     const collaborators = await Collaborator.find();
@@ -142,6 +144,7 @@ const getCollaborators = async (req, res) => {
       });
   }
   }
+  // Si no está autenticado
   else{
     return res.status(401).send({ message: "Unauthorized" });
   }
