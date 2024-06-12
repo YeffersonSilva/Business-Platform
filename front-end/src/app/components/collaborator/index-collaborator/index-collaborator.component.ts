@@ -16,6 +16,8 @@ export class IndexCollaboratorComponent implements OnInit {
   public page = 1;
   public pageSize = 20;
 
+  public loadState = false;
+
   constructor(
     private _collaboratorService: CollaboratorService,
 
@@ -66,5 +68,9 @@ export class IndexCollaboratorComponent implements OnInit {
     else {
       this.collaborators = this.collaborators_const;
     }
+  }
+
+  set_state(id: any, state: any) {
+
   }
 }

@@ -175,7 +175,51 @@
                               >
                             </td>
 
-                            <td class="pr-0 text-left"></td>
+                            <td class="pr-0 text-rigth">
+                              <div class="dropdown dropleft">
+                                <button type="button" class="btn btn-light-primary btn-icon btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="ki ki-bold-more-ver"></i>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a style="cursor: pointer;" class="dropdown-item" *ngIf="item.state" data-toggle="modal"
+                                    [attr.data-target]="'#delete-'+item._id">
+                                        <i class="icon-1x text-dark-50 flaticon2-cross" ></i> &nbsp; Desactivar
+                                    </a>
+                                    <a style="cursor: pointer;" class="dropdown-item" *ngIf="!item.state" data-toggle="modal"
+                                    [attr.data-target]="'#delete-'+item._id">
+                                      <i class="icon-1x text-dark-50 flaticon2-check-mark"></i> &nbsp; Activar
+                                  </a>
+                                 <!--<a class="dropdown-item">
+                                        <i class="icon-1x text-dark-50 flaticon-edit"></i> &nbsp; Item 2
+                                    </a> -->
+                                </div>
+                            </div>
+                            <div class="modal fade" id="delete-{{item._id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                              <div class="modal-dialog" role="document">
+                                  <div class="modal-content">
+                                      <div class="modal-header">
+                                          <h5 class="modal-title" id="exampleModalLabel">Title Modal</h5>
+                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                              <i aria-hidden="true" class="ki ki-close"></i>
+                                          </button>
+                                      </div>
+                                      <div class="modal-body">
+                                          <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Atque vero odio sunt sequi. Fugit ipsum possimus placeat eum cum perspiciatis! Est, cupiditate nostrum maiores quo ad cumque consequatur laudantium? Excepturi.</p>
+                                      </div>
+                                      <div class="modal-footer">
+                                          <button type="button" class="btn btn-warning font-weight-bold" data-dismiss="modal">Cerrar</button>
+                                          <button *ngIf="!loadState" type="button" class="btn btn-danger font-weight-bold" (click)="setState(item._id,item.state)">Enviar</button>
+
+                                          <button *ngIf="loadState" class="btn btn-danger" type="button" disabled>
+                                              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                              Enviando...
+                                          </button>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+
+                            </td>
                           </tr>
                         </tbody>
                       </table>
