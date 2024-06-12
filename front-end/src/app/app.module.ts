@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms'; // Importar FormsModule
 import { HttpClientModule } from '@angular/common/http';
+import { NgbPaginationModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -25,16 +26,18 @@ import { EditCollaboratorComponent } from './components/collaborator/edit-collab
     TopComponent,
     IndexCollaboratorComponent,
     CreateCollaboratorComponent,
-    EditCollaboratorComponent
+    EditCollaboratorComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     routing,
     FormsModule, // Asegurarse de que FormsModule esté en el array de imports
-    HttpClientModule
+    HttpClientModule,
+    NgbPaginationModule,
+    NgbModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
