@@ -43,7 +43,7 @@
             <!--begin::Dashboard-->
             <!--begin::Row-->
 
-            <div class="card card-custom">
+            <div class="card card-custom mb-7">
               <div class="card-header flex-wrap border-0 pt-6 pb-0">
                 <div class="card-title">
                   <h3 class="card-label">
@@ -94,7 +94,7 @@
                   <div class="col-12">
                     <div class="table-responsive">
                       <table
-                        class="table table-head-custom table-head-bg table-borderless table-vertical-center"
+                        class="table table-head-custom table-head-bg table-borderless table-vertical-center" style="margin-bottom: 0px;"
                       >
                         <thead>
                           <tr class="text-left text-uppercase">
@@ -109,13 +109,16 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr *ngFor="let item of collaborators">
+                          <tr *ngFor="let item of collaborators | slice: (page - 1) * pageSize : page * pageSize">
                             <td class="pl-0 py-5">
                               <div class="d-flex align-items-center">
                                 <div
-                                  class="symbol symbol-40 flex-shrink-0 symbol-success mr-3"
+                                  class="symbol symbol-40 flex-shrink-0 mr-3" [ngClass]="{
+                                    'symbol-success': (item.name.charAt(0) >= 'A' && item.name.charAt(0) <= 'H') || (item.name.charAt(0) >= 'a' && item.name.charAt(0) <= 'h'),
+                                    'symbol-info': (item.name.charAt(0) >= 'I' && item.name.charAt(0) <= 'Z') || (item.name.charAt(0) >= 'i' && item.name.charAt(0) <= 'z')
+                                  }"
                                 >
-                                  <div class="symbol-label">D</div>
+                                  <div class="symbol-label">{{item.name.charAt(0)}}</div>
                                 </div>
                                 <div>
                                   <a
@@ -171,20 +174,21 @@
                         </tbody>
                       </table>
                     </div>
-                    <p>Restricted size with rotation:</p>
-                    <ngb-pagination
-                      [collectionSize]="collaborators.length"
-                      [pageSize]="pageSize"
-                      [(page)]="page"
-                      [maxSize]="10"
-                      [rotate]="true"
-                      [boundaryLinks]="true">
-                    </ngb-pagination>
+
+
 
                   </div>
                 </div>
               </div>
             </div>
+            <ngb-pagination
+            [collectionSize]="collaborators.length"
+            [pageSize]="pageSize"
+            [(page)]="page"
+            [maxSize]="10"
+            [rotate]="true"
+            [boundaryLinks]="true">
+          </ngb-pagination>
           </div>
           <!--end::Row-->
         </div>
