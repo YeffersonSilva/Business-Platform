@@ -55,7 +55,7 @@
                 </div>
                 <div class="card-toolbar">
                   <!--begin::Button-->
-
+                  <a class="btn btn-info" [routerLink]="['/collaborator/create']">Nuevo Colaborador</a>
                   <!--end::Button-->
                 </div>
               </div>
@@ -113,9 +113,15 @@
                             <td class="pl-0 py-5">
                               <div class="d-flex align-items-center">
                                 <div
-                                  class="symbol symbol-40 flex-shrink-0 mr-3" [ngClass]="{
-                                    'symbol-success': (item.name.charAt(0) >= 'A' && item.name.charAt(0) <= 'H') || (item.name.charAt(0) >= 'a' && item.name.charAt(0) <= 'h'),
-                                    'symbol-info': (item.name.charAt(0) >= 'I' && item.name.charAt(0) <= 'Z') || (item.name.charAt(0) >= 'i' && item.name.charAt(0) <= 'z')
+                                  class="symbol symbol-40 flex-shrink-0 mr-3"  [ngClass]="{
+                                    'symbol-success': (item.name.charAt(0) >= 'A' && item.name.charAt(0) <= 'C') || (item.name.charAt(0) >= 'a' && item.name.charAt(0) <= 'c'),
+                                    'symbol-info': (item.name.charAt(0) >= 'D' && item.name.charAt(0) <= 'F') || (item.name.charAt(0) >= 'd' && item.name.charAt(0) <= 'f'),
+                                    'symbol-warning': (item.name.charAt(0) >= 'G' && item.name.charAt(0) <= 'I') || (item.name.charAt(0) >= 'g' && item.name.charAt(0) <= 'i'),
+                                    'symbol-danger': (item.name.charAt(0) >= 'J' && item.name.charAt(0) <= 'L') || (item.name.charAt(0) >= 'j' && item.name.charAt(0) <= 'l'),
+                                    'symbol-primary': (item.name.charAt(0) >= 'M' && item.name.charAt(0) <= 'O') || (item.name.charAt(0) >= 'm' && item.name.charAt(0) <= 'o'),
+                                    'symbol-secondary': (item.name.charAt(0) >= 'P' && item.name.charAt(0) <= 'R') || (item.name.charAt(0) >= 'p' && item.name.charAt(0) <= 'r'),
+                                    'symbol-light': (item.name.charAt(0) >= 'S' && item.name.charAt(0) <= 'U') || (item.name.charAt(0) >= 's' && item.name.charAt(0) <= 'u'),
+                                    'symbol-dark': (item.name.charAt(0) >= 'V' && item.name.charAt(0) <= 'Z') || (item.name.charAt(0) >= 'v' && item.name.charAt(0) <= 'z')
                                   }"
                                 >
                                   <div class="symbol-label">{{item.name.charAt(0)}}</div>
