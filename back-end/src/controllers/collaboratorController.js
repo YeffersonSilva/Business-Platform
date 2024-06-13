@@ -153,8 +153,36 @@ const getCollaborators = async (req, res) => {
 
 }
 
+const setState = async (req, res) => {
+  // Validar si el usuario está autenticado
+  if(req.user){
+    try {
+      let id = req.params['id'];  
+      let data = req.body;
+
+      let newStatus = data.state;
+
+      let collaborator = await Collaborator.findByIdAndUpdate(id, {
+        state: newStatus
+      }, { new: true });
+
+      res.status(200).send({ data: collaborator });
+
+    } catch (error) {
+      res.status(500).send({    
+        message: "Internal server error during collaborator state update",
+      });
+    }
+  }
+  else {
+    return res.status(401).send({ message: "Unauthorized" });
+  }
+}
+
+
 module.exports = {
   registerCollaboratorAdmin,
   loginCollaborator,
   getCollaborators,
+  setState
 };
