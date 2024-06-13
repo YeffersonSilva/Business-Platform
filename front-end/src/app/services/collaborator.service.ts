@@ -26,6 +26,9 @@ export class CollaboratorService {
     let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': token})
     return this._http.get(this.url + 'getCollaborators',  { headers: headers });
   }
-
+  setState(id: any,data: any,token : any): Observable<any> {
+    let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': token})
+    return this._http.put(this.url + 'setState/'+id,data , { headers: headers });
+  }
 
 }

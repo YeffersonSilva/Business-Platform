@@ -70,7 +70,22 @@ export class IndexCollaboratorComponent implements OnInit {
     }
   }
 
-  set_state(id: any, state: any) {
+  set_state(id: any, currentState: any) {
+    // Cambiar el estado al opuesto del estado actual
+    const newState = !currentState;
+    this.loadState = true; // Mostrar el spinner
 
+    this._collaboratorService.setState(id, { state: newState }, this.token).subscribe(
+      response => {
+        $('#delete-' + id).modal('hide');
+        this.loadState = false; // Ocultar el spinner
+        this.init_data(); // Recargar los datos
+      },
+      error => {
+        this.loadState = false; // Ocultar el spinner en caso de error
+        this.showNotification('Error al cambiar el estado: ' + error.message, 'danger');
+      }
+    );
   }
+
 }
