@@ -10,5 +10,6 @@ app.post('/loginCollaboratorAdmin', collaborator.loginCollaborator);
 app.get('/getCollaborators', authenticate.authenticate, collaborator.getCollaborators);
 app.put('/setState/:id', authenticate.authenticate, collaborator.setState);
 app.get('/getDataloginCollaborator/:id', authenticate.authenticate, collaborator.getDataloginCollaborator);
+app.put('/updateCollaboratorAdmin/:id', authenticate.authenticate, collaborator.updateCollaboratorAdmin);
 
 module.exports = app;

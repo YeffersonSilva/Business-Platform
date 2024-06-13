@@ -1,14 +1,14 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-
+const cors = require('cors');
 const app = express();
 const testRouter = require('./routes/test');
 const collaboratorRouter = require('./routes/collaborator');
 
 
 const port = process.env.PORT || 3001;
-
+app.use(cors());
 
 async function connectToDatabase() {
     try {

@@ -201,10 +201,37 @@ const getDataloginCollaborator = async (req, res) => {
 }
 
 
+const updateCollaboratorAdmin = async (req, res) => {
+  if (req.user) {
+    let id = req.params["id"];
+  
+    const data = req.body;
+    const collaborator = await Collaborator.findByIdAndUpdate({ _id: id },
+      {
+        name: data.name,
+        surname: data.surname,
+        gender: data.gender,
+        email: data.email,
+        rol: data.rol,
+        phone: data.phone,
+        n_document: data.n_document,
+        rol: data.rol,
+        country: data.country
+      },
+      { new: true }
+    );
+    res.status(200).send({ data: collaborator });
+  }
+   else{
+     return res.status(401).send({ message: "Unauthorized" });
+   }
+ };
+
 module.exports = {
   registerCollaboratorAdmin,
   loginCollaborator,
   getCollaborators,
   setState,
-  getDataloginCollaborator
+  getDataloginCollaborator,
+  updateCollaboratorAdmin
 };
