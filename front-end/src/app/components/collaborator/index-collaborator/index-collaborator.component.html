@@ -208,7 +208,7 @@
                                       </div>
                                       <div class="modal-footer">
                                           <button type="button" class="btn btn-warning font-weight-bold" data-dismiss="modal">Cerrar</button>
-                                          <button *ngIf="!loadState" type="button" class="btn btn-danger font-weight-bold" (click)="setState(item._id,item.state)">Enviar</button>
+                                          <button *ngIf="!loadState" type="button" class="btn btn-danger font-weight-bold" (click)="set_state(item._id, item.state)">Enviar</button>
 
                                           <button *ngIf="loadState" class="btn btn-danger" type="button" disabled>
                                               <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
