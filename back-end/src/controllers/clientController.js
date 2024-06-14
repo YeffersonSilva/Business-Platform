@@ -1,6 +1,7 @@
 const Client = require('../models/Client');
 
-
+const bcrypt = require("bcrypt-nodejs");
+const jwt = require("../helpers/jwt");
 
 const registerClientAdmin = async (req, res) => {
     if(req.user){

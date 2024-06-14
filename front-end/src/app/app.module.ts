@@ -16,9 +16,10 @@ import { IndexCollaboratorComponent } from './components/collaborator/index-coll
 import { CreateCollaboratorComponent } from './components/collaborator/create-collaborator/create-collaborator.component';
 import { EditCollaboratorComponent } from './components/collaborator/edit-collaborator/edit-collaborator.component';
 import { NotfoundComponent } from './components/notfound/notfound.component';
-import { IndexClientComponent } from './componets/client/index-client/index-client.component';
-import { CreateClientComponent } from './componets/client/create-client/create-client.component';
-import { EditClientComponent } from './componets/client/edit-client/edit-client.component';
+
+import { IndexClientComponent } from './components/client/index-client/index-client.component';
+import { CreateClientComponent } from './components/client/create-client/create-client.component';
+import { EditClientComponent } from './components/client/edit-client/edit-client.component';
 
 @NgModule({
   declarations: [
