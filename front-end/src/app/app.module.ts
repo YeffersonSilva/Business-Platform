@@ -16,6 +16,9 @@ import { IndexCollaboratorComponent } from './components/collaborator/index-coll
 import { CreateCollaboratorComponent } from './components/collaborator/create-collaborator/create-collaborator.component';
 import { EditCollaboratorComponent } from './components/collaborator/edit-collaborator/edit-collaborator.component';
 import { NotfoundComponent } from './components/notfound/notfound.component';
+import { IndexClientComponent } from './componets/client/index-client/index-client.component';
+import { CreateClientComponent } from './componets/client/create-client/create-client.component';
+import { EditClientComponent } from './componets/client/edit-client/edit-client.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +32,9 @@ import { NotfoundComponent } from './components/notfound/notfound.component';
     CreateCollaboratorComponent,
     EditCollaboratorComponent,
     NotfoundComponent,
+    IndexClientComponent,
+    CreateClientComponent,
+    EditClientComponent,
   ],
   imports: [
     BrowserModule,
