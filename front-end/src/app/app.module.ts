@@ -15,6 +15,7 @@ import { TopComponent } from './components/top/top.component';
 import { IndexCollaboratorComponent } from './components/collaborator/index-collaborator/index-collaborator.component';
 import { CreateCollaboratorComponent } from './components/collaborator/create-collaborator/create-collaborator.component';
 import { EditCollaboratorComponent } from './components/collaborator/edit-collaborator/edit-collaborator.component';
+import { NotfoundComponent } from './components/notfound/notfound.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { EditCollaboratorComponent } from './components/collaborator/edit-collab
     IndexCollaboratorComponent,
     CreateCollaboratorComponent,
     EditCollaboratorComponent,
+    NotfoundComponent,
   ],
   imports: [
     BrowserModule,

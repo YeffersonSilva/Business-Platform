@@ -6,7 +6,7 @@ declare var $: any;
 @Component({
   selector: 'app-create-collaborator',
   templateUrl: './create-collaborator.component.html',
-  styleUrls: ['./create-collaborator.component.css']
+  styleUrls: ['./create-collaborator.component.css'],
 })
 export class CreateCollaboratorComponent implements OnInit {
   public collaborator: any = {
@@ -17,18 +17,17 @@ export class CreateCollaboratorComponent implements OnInit {
     n_document: '',
     rol: '',
     gender: '',
-    country: ''
+    country: '',
   };
   public btnRegister = false;
-  public token: any= localStorage.getItem('token');
+  public token: any = localStorage.getItem('token');
 
   constructor(
     private _collaboratorService: CollaboratorService,
     private _router: Router
-  ) { }
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   registerCollaborator(registerForm: any) {
     this.btnRegister = true;
@@ -36,24 +35,32 @@ export class CreateCollaboratorComponent implements OnInit {
       this.btnRegister = true;
 
       console.log(this.collaborator); // Para depuración
-      this._collaboratorService.registerCollaboratorAdmin(this.collaborator, this.token).subscribe(
-        response => {
-          if (response == undefined || !response.data) {
-            this.showNotification('Complete el formulario', 'danger');
-          } else { setTimeout(() => {
-            this.btnRegister = false;
-          },3000);
-            this.showNotification('Colaborador registrado con éxito', 'success');
-            this._router.navigate(['/collaborator']);
+      this._collaboratorService
+        .updateCollaborator(this.collaborator, this.token)
+        .subscribe(
+          (response) => {
+            if (response == undefined || !response.data) {
+              this.showNotification('Complete el formulario', 'danger');
+            } else {
+              setTimeout(() => {
+                this.btnRegister = false;
+              }, 3000);
+              this.showNotification(
+                'Colaborador registrado con éxito',
+                'success'
+              );
+              this._router.navigate(['/collaborator']);
+            }
+          },
+          (error) => {
+            this.showNotification(
+              'Error en el registro: ' + error.message,
+              'danger'
+            );
           }
-        },
-        error => {
-          this.showNotification('Error en el registro: ' + error.message, 'danger');
-        }
-      );    this.btnRegister = false;
-
+        );
+      this.btnRegister = false;
     } else {
-
       this.showNotification('Complete el formulario', 'danger');
     }
   }
@@ -65,13 +72,13 @@ export class CreateCollaboratorComponent implements OnInit {
       timer: 2000,
       placement: {
         from: 'top',
-        align: 'right'
+        align: 'right',
       },
       delay: 1000,
       animate: {
         enter: 'animated bounce',
-        exit: 'animated bounce'
-      }
+        exit: 'animated bounce',
+      },
     });
   }
 }
