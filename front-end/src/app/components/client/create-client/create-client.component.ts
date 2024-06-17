@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ClientService } from 'src/app/services/client.service';
+declare var $: any;
 
 @Component({
   selector: 'app-create-client',
@@ -26,12 +29,67 @@ export class CreateClientComponent implements OnInit {
   public token: any = localStorage.getItem('token');
 
 
-  constructor() { }
+  constructor(
+    private _clientService: ClientService,
+    private _router: Router
+
+  ) { }
 
   ngOnInit(): void {
   }
 
   registerClient(registerForm: any) {
+    this.btnRegister = true;
+    if (registerForm.valid) {
+      this.btnRegister = true;
+
+      console.log(this.client); // Para depuración
+      this._clientService
+        .registerClientAdmin(this.client, this.token)
+        .subscribe(
+          (response) => {
+            if (response == undefined || !response.data) {
+              this.showNotification('Complete el formulario', 'danger');
+            } else {
+              setTimeout(() => {
+                this.btnRegister = false;
+              }, 3000);
+              this.showNotification(
+                'Colaborador registrado con éxito',
+                'success'
+              );
+              this._router.navigate(['/client']);
+            }
+          },
+          (error) => {
+            this.showNotification(
+              'Error en el registro: ' + error.message,
+              'danger'
+            );
+          }
+        );
+      this.btnRegister = false;
+    } else {
+      this.showNotification('Complete el formulario', 'danger');
+    }
   }
 
-}
+  private showNotification(message: string, type: string) {
+    $.notify(message, {
+      type: type,
+      spacing: 10,
+      timer: 2000,
+      placement: {
+        from: 'top',
+        align: 'right',
+      },
+      delay: 1000,
+      animate: {
+        enter: 'animated bounce',
+        exit: 'animated bounce',
+      },
+    });
+  }
+  }
+
+
