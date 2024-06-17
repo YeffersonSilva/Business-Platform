@@ -7,9 +7,31 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreateClientComponent implements OnInit {
 
+  public client: any = {
+    name: '',
+    surname: '',
+    email: '',
+    phone: '',
+    n_document: '',
+    rol: '',
+    gender: '',
+    country: '',
+    city: '',
+    address: '',
+    brith: '',
+  };
+  public btnRegister = false;
+
+
+  public token: any = localStorage.getItem('token');
+
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  registerClient(registerForm: any) {
   }
 
 }
