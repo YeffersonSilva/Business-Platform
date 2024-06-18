@@ -36,17 +36,23 @@ export class CreateClientComponent implements OnInit {
   registerClient(registerForm: any) {
     this.btnRegister = true;
     if (registerForm.valid) {
+      console.log(this.client); // Para depuración
+
       this.clientService.registerClientAdmin(this.client, this.token)
         .subscribe(
           response => {
             if (response == undefined || !response.data) {
               this.showNotification('Complete el formulario', 'danger');
+              console.log(this.client);
             } else {
               setTimeout(() => {
                 this.btnRegister = false;
+                console.log(this.client);
               }, 3000);
               this.showNotification('Colaborador registrado con éxito', 'success');
+              console.log(this.client);
               this.router.navigate(['/client']);
+
             }
           },
           error => {
@@ -56,6 +62,7 @@ export class CreateClientComponent implements OnInit {
       this.btnRegister = false;
     } else {
       this.showNotification('Complete el formulario', 'danger');
+      console.log(this.client);
     }
   }
 
