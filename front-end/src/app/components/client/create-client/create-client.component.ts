@@ -9,7 +9,6 @@ declare var $: any;
   styleUrls: ['./create-client.component.css']
 })
 export class CreateClientComponent implements OnInit {
-
   public client: any = {
     name: '',
     surname: '',
@@ -21,51 +20,37 @@ export class CreateClientComponent implements OnInit {
     country: '',
     city: '',
     address: '',
-    brith: '',
+    birth: '',
   };
   public btnRegister = false;
 
-
   public token: any = localStorage.getItem('token');
 
-
   constructor(
-    private _clientService: ClientService,
-    private _router: Router
-
+    private clientService: ClientService,
+    private router: Router
   ) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   registerClient(registerForm: any) {
     this.btnRegister = true;
     if (registerForm.valid) {
-      this.btnRegister = true;
-
-      console.log(this.client); // Para depuración
-      this._clientService
-        .registerClientAdmin(this.client, this.token)
+      this.clientService.registerClientAdmin(this.client, this.token)
         .subscribe(
-          (response) => {
+          response => {
             if (response == undefined || !response.data) {
               this.showNotification('Complete el formulario', 'danger');
             } else {
               setTimeout(() => {
                 this.btnRegister = false;
               }, 3000);
-              this.showNotification(
-                'Colaborador registrado con éxito',
-                'success'
-              );
-              this._router.navigate(['/client']);
+              this.showNotification('Colaborador registrado con éxito', 'success');
+              this.router.navigate(['/client']);
             }
           },
-          (error) => {
-            this.showNotification(
-              'Error en el registro: ' + error.message,
-              'danger'
-            );
+          error => {
+            this.showNotification('Error en el registro: ' + error.message, 'danger');
           }
         );
       this.btnRegister = false;
@@ -90,6 +75,4 @@ export class CreateClientComponent implements OnInit {
       },
     });
   }
-  }
-
-
+}

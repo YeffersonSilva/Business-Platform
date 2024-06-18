@@ -23,6 +23,11 @@ const ClientSchema = new Schema({
         type: String,
         required: true
     },
+    type: {
+        type: String,
+        required: true,
+        default: 'Prospecto'
+    },
     birth: {
         type: String,
         required: false
@@ -31,29 +36,31 @@ const ClientSchema = new Schema({
         type: String,
         required: true
     },
-    n_document: {
-        type: String,
-        required: false
-    },
-    type: {
-        type: String,
-        required: true,
-        default: 'Prospecto'
-    },
-    verify: {
-        type: Boolean,
-        default: false,
-        required: true
-    },
+
     password: {
         type: String,
         required: true
     },
+
     state: {   
         type: Boolean,
         default: true,
         required: true
     },
+
+    
+    n_document: {
+        type: String,
+        required: false
+    },
+   
+    verify: {
+        type: Boolean,
+        default: false,
+        required: true
+    },
+ 
+  
     country: {
         type: String,
         required: false

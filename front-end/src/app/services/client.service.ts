@@ -13,14 +13,12 @@ export class ClientService {
     console.log(this.url);
   }
 
-
   registerClientAdmin(data: any, token: any): Observable<any> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization: token,
     });
-    return this._http.post(this.url + 'registerClientAdmin',data,  { headers: headers });
+    return this._http.post(this.url + 'registerClientAdmin', data, { headers: headers });
   }
-
-
 }
+
