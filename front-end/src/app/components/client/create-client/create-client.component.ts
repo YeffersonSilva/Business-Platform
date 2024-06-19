@@ -44,17 +44,17 @@ export class CreateClientComponent implements OnInit {
       response => {
         if (!response || !response.data) {
           // Show a notification if the response is invalid
-          this.showNotification('Please complete the form', 'danger');
+          this.showNotification('Complete el formulario', 'danger');
         } else {
           // Show a success notification and navigate to the client page
-          this.showNotification('Client successfully registered', 'success');
+          this.showNotification('Cliente registrado con éxito', 'success');
           this.router.navigate(['/client']);
         }
         this.btnRegister = false; // Change the state of the register button to false
       },
       error => {
         // Show an error notification if there is an issue during registration
-        this.showNotification('Registration error: ' + error.message, 'danger');
+        this.showNotification('Error en el registro: ' + error.message, 'danger');
         this.btnRegister = false; // Change the state of the register button to false
       }
     );
@@ -64,11 +64,11 @@ export class CreateClientComponent implements OnInit {
   private isFormInvalid(registerForm: any): boolean {
     // List of required fields with their error messages
     const fields = [
-      { name: 'name', message: 'Please complete the client\'s first name.' },
-      { name: 'surname', message: 'Please complete the client\'s surname.' },
-      { name: 'email', message: 'Please complete the client\'s email.' },
-      { name: 'gender', message: 'Please select the client\'s gender.' },
-      { name: 'phone', message: 'Please enter the client\'s phone number.' },
+      { name: 'name', message: 'Complete los nombres del cliente.' },
+      { name: 'surname', message: 'Complete los apellidos del cliente.' },
+      { name: 'email', message: 'Complete el email del cliente.' },
+      { name: 'gender', message: 'Seleccione el género del cliente.' },
+      { name: 'phone', message: 'Ingrese el teléfono del cliente.' },
     ];
 
     // Iterate over the fields and check if any are empty
