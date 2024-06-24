@@ -10,6 +10,7 @@ var ejs = require('ejs');
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
 var path = require('path');
+require('dotenv').config(); // Cargar variables de entorno desde el archivo .env
 
 
 
@@ -87,54 +88,52 @@ const registerClientAdmin = async (req, res) => {
 // Función para enviar correo de verificación
 const setEmail = async (req, res) => {
   
-var readHTMLFile = function(path, callback) {
-  fs.readFile(path, {encoding: 'utf-8'}, function (err, html) {
+  var readHTMLFile = function(path, callback) {
+    fs.readFile(path, {encoding: 'utf-8'}, function (err, html) {
       if (err) {
-          throw err;
-          callback(err);
+        throw err;
+        callback(err);
+      } else {
+        callback(null, html);
       }
-      else {
-          callback(null, html);
-      }
-  });
-};
+    });
+  };
 
-var transporter = nodemailer.createTransport(smtpTransport({
-  service: 'gmail',
-  host: 'smtp.gmail.com',
-  auth: {
-      user: 'diegoalonssoac@gmail.com',
-      pass: 'dcmplvjviofjojgf'
-  }
-}));
+  var transporter = nodemailer.createTransport(smtpTransport({
+    service: 'gmail',
+    host: 'smtp.gmail.com',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS
+    }
+  }));
 
-//OBTENER CLIENTE
+  // OBTENER CLIENTE
 
-readHTMLFile(process.cwd() + '/mails/account_verify.html', (err, html)=>{
-                      
-  let rest_html = ejs.render(html, {token: token});
+  readHTMLFile(path.join(process.cwd(), '/mails/account_verify.html'), (err, html) => {
+    let rest_html = ejs.render(html, {token: token});
 
-  var template = handlebars.compile(rest_html);
-  var htmlToSend = template({op:true});
+    var template = handlebars.compile(rest_html);
+    var htmlToSend = template({op:true});
 
-  var mailOptions = {
-      from: 'diegoalonssoac@gmail.com',
+    var mailOptions = {
+      from: process.env.EMAIL_USER,
       to: email,
       subject: 'Verificación de cuenta',
       html: htmlToSend
-  };
+    };
 
-  transporter.sendMail(mailOptions, function(error, info){
+    transporter.sendMail(mailOptions, function(error, info) {
       if (!error) {
-          console.log('Email sent: ' + info.response);
+        console.log('Email sent: ' + info.response);
       }
+    });
   });
-
-});
-}
+};
 
 
 
 module.exports = {
-    registerClientAdmin
+  registerClientAdmin,
+  setEmail
 }
