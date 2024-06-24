@@ -20,6 +20,7 @@ import { NotfoundComponent } from './components/notfound/notfound.component';
 import { IndexClientComponent } from './components/client/index-client/index-client.component';
 import { CreateClientComponent } from './components/client/create-client/create-client.component';
 import { EditClientComponent } from './components/client/edit-client/edit-client.component';
+import { VerifyaccountComponent } from './components/verifyaccount/verifyaccount.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { EditClientComponent } from './components/client/edit-client/edit-client
     IndexClientComponent,
     CreateClientComponent,
     EditClientComponent,
+    VerifyaccountComponent,
   ],
   imports: [
     BrowserModule,

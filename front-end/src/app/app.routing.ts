@@ -8,6 +8,7 @@ import { EditCollaboratorComponent } from './components/collaborator/edit-collab
 import { IndexClientComponent } from './components/client/index-client/index-client.component';
 import { CreateClientComponent } from './components/client/create-client/create-client.component';
 import { EditClientComponent } from './components/client/edit-client/edit-client.component';
+import { VerifyaccountComponent } from './components/verifyaccount/verifyaccount.component';
 
 const appRoutes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
@@ -18,6 +19,8 @@ const appRoutes: Routes = [
   { path: 'client', component: IndexClientComponent },
   { path: 'client/create', component: CreateClientComponent },
   { path: 'client/:id', component: EditClientComponent },
+
+  { path: 'verification/:token', component: VerifyaccountComponent },
 
   { path: '', component: LoginComponent },
 
