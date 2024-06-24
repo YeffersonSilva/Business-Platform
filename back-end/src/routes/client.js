@@ -7,5 +7,8 @@ const app = express();
 
 app.post('/registerClientAdmin', authenticate.authenticate, clientController.registerClientAdmin);
 
+app.get('/verifyAccount/:token', authenticate.authenticate, clientController.verifyAccount);
+
+
 
 module.exports = app;

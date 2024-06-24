@@ -126,7 +126,34 @@ const registerClientAdmin = async (req, res) => {
   }
 };
 
+const verifyAccount = async (req, res) => {
+  const tokenParams = req.params['token'];
+
+  if (!tokenParams) {
+    return res.status(401).send({ message: "Token not found" });
+  }
+
+  // Verificar el token
+  try {
+    const payload = jwt.verify(tokenParams, process.env.JWT_SECRET);
+
+    // Verificar si el token ha expirado
+    if (payload.exp <= moment().unix()) {
+      return res.status(401).send({ message: "El correo expiró" });
+    }
+
+    // Actualizar el estado de verificación del cliente
+    await Client.findByIdAndUpdate(payload.sub, { verified: true });
+
+    return res.status(200).send({ message: "Account verified" });
+
+  } catch (error) {
+    return res.status(401).send({ message: "Invalid token" });
+  }
+};
+
 module.exports = {
   registerClientAdmin,
-  setEmail
+  setEmail,
+  verifyAccount
 };
