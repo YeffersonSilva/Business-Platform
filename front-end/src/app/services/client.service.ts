@@ -20,5 +20,13 @@ export class ClientService {
     });
     return this._http.post(this.url + 'registerClientAdmin', data, { headers: headers });
   }
+
+  verifyAccount( token: any): Observable<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+   
+    });
+    return this._http.get(this.url + 'verifyAccount/'+token, { headers: headers });
+  }
 }
 
