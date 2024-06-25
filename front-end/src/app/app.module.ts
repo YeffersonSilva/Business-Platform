@@ -21,6 +21,7 @@ import { IndexClientComponent } from './components/client/index-client/index-cli
 import { CreateClientComponent } from './components/client/create-client/create-client.component';
 import { EditClientComponent } from './components/client/edit-client/edit-client.component';
 import { VerifyaccountComponent } from './components/verifyaccount/verifyaccount.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,14 @@ import { VerifyaccountComponent } from './components/verifyaccount/verifyaccount
   imports: [
     BrowserModule,
     AppRoutingModule,
+    RouterModule.forRoot([
+      { path: 'login', component: LoginComponent },
+
+      { path: 'client', component: IndexClientComponent },
+      { path: 'collaborator', component: IndexCollaboratorComponent },
+      // otras rutas
+    ]),
+
     routing,
     FormsModule, // Asegurarse de que FormsModule esté en el array de imports
     HttpClientModule,
