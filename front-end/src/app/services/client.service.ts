@@ -24,9 +24,20 @@ export class ClientService {
   verifyAccount( token: any): Observable<any> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
-   
+
     });
     return this._http.get(this.url + 'verifyAccount/'+token, { headers: headers });
   }
+
+
+
+  getClients(filtro: any, token: any): Observable<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: token,
+    });
+    return this._http.get(this.url + 'getClients/' + filtro, { headers: headers });
+  }
+
 }
 
