@@ -1,7 +1,7 @@
 const Client = require('../models/Client');
 const bcrypt = require("bcrypt-nodejs");
 const jwtClient = require("../helpers/jwtClient");
-
+const jwt = require('jsonwebtoken');
 const fs = require('fs');
 const handlebars = require('handlebars');
 const ejs = require('ejs');
@@ -34,7 +34,6 @@ const setEmail = async (email) => {
   }));
 
   try {
-    // OBTENER CLIENTE
     const client = await Client.findOne({ email });
     if (!client) {
       throw new Error('Client not found');
@@ -42,7 +41,6 @@ const setEmail = async (email) => {
 
     const token = jwtClient.createToken(client);
 
-    // Ajustar la ruta al archivo HTML correcto
     const filePath = path.join(process.cwd(), 'src', 'mails', 'account_verify.html');
     console.log(`Leyendo archivo HTML de: ${filePath}`);
 
@@ -76,11 +74,11 @@ const setEmail = async (email) => {
   }
 };
 
+
 const registerClientAdmin = async (req, res) => {
   if (req.user) {
     const data = req.body;
 
-    // Validación de campos requeridos
     if (!data.name || !data.surname || !data.email) {
       return res.status(400).send({ data: undefined, message: "All fields are required" });
     }
@@ -104,14 +102,13 @@ const registerClientAdmin = async (req, res) => {
 
           const newClient = new Client(data);
 
-          // Validar el nuevo cliente antes de guardarlo
           const validationError = newClient.validateSync();
           if (validationError) {
             return res.status(400).send({ data: undefined, message: validationError.message });
           }
 
           await newClient.save();
-          await setEmail(newClient.email); // Llamar a setEmail después de guardar el nuevo cliente
+          await setEmail(newClient.email);
           res.status(201).send({ data: newClient });
         }
       });
@@ -126,6 +123,7 @@ const registerClientAdmin = async (req, res) => {
   }
 };
 
+
 const verifyAccount = async (req, res) => {
   const tokenParams = req.params['token'];
 
@@ -133,24 +131,21 @@ const verifyAccount = async (req, res) => {
     return res.status(401).send({ message: "Token not found" });
   }
 
-  // Verificar el token
   try {
     const payload = jwt.verify(tokenParams, process.env.JWT_SECRET);
 
-    // Verificar si el token ha expirado
     if (payload.exp <= moment().unix()) {
       return res.status(401).send({ message: "El correo expiró" });
     }
 
-    // Actualizar el estado de verificación del cliente
     await Client.findByIdAndUpdate(payload.sub, { verified: true });
 
     return res.status(200).send({ message: "Account verified" });
-
   } catch (error) {
     return res.status(401).send({ message: "Invalid token" });
   }
 };
+
 
 module.exports = {
   registerClientAdmin,
