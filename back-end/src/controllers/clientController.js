@@ -126,29 +126,63 @@ const registerClientAdmin = async (req, res) => {
 
 const verifyAccount = async (req, res) => {
   const tokenParams = req.params['token'];
+  const token = req.headers.authorization.replace(/['"]+/g, "");
+  const segment = token.split('.');
 
-  if (!tokenParams) {
-    return res.status(401).send({ message: "Token not found" });
-  }
-
-  try {
-    const payload = jwt.verify(tokenParams, process.env.JWT_SECRET);
-
-    if (payload.exp <= moment().unix()) {
-      return res.status(401).send({ message: "El correo expiró" });
+  if (segment.length !== 3) {
+    return res.status(401).send({ message: "Invalid token format" });
+  } else {
+    try {
+      const payload = jwt.decode(token, process.env.JWT_SECRET);
+      await Client.findOneAndUpdate({ _id: payload.id }, { verify: true });
+      res.status(200).send({ message: "Account verified" });
+    }
+    catch (error) {
+      console.log(error); 
+      return res.status(401).send({ message: "Invalid token" });
     }
 
-    await Client.findByIdAndUpdate(payload.sub, { verified: true });
+  };
+}
 
-    return res.status(200).send({ message: "Account verified" });
+
+const getClient = async (req, res) => {
+  // Validar si el usuario está autenticado
+  if (req.user) {
+    try {
+    let flltro = req.params['filtro']
+      const client = await Client.find({
+        $or: [
+          { name: new RegExp(flltro, 'i')},
+          { surname: new RegExp(flltro, 'i')},
+          { email: new RegExp(flltro, 'i') },
+          { n_document: new RegExp(flltro, 'i')},
+          { fullname: new RegExp(flltro, 'i') }
+          
+        ]
+    });
+    res.status(200).send({ data: client });
   } catch (error) {
-    return res.status(401).send({ message: "Invalid token" });
+    res
+      .status(500)
+      .send({
+        data: undefined,
+        message: "Internal server error during collaborators query",
+      });
   }
-};
+  }
+  // Si no está autenticado
+  else{
+    return res.status(401).send({ message: "Unauthorized" });
+  }
 
+
+
+}
 
 module.exports = {
   registerClientAdmin,
   setEmail,
-  verifyAccount
+  verifyAccount,
+  getClient
 };

@@ -7,7 +7,10 @@ const app = express();
 
 app.post('/registerClientAdmin', authenticate.authenticate, clientController.registerClientAdmin);
 
-app.get('/verifyAccount/:token', authenticate.authenticate, clientController.verifyAccount);
+app.get('/verifyAccount/:token', clientController.verifyAccount);
+
+app.get('/getClient/:filtro', authenticate.authenticate, clientController.getClient);
+
 
 
 
