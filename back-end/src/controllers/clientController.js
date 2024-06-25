@@ -146,39 +146,31 @@ const verifyAccount = async (req, res) => {
 }
 
 
+
 const getClient = async (req, res) => {
-  // Validar si el usuario está autenticado
   if (req.user) {
     try {
-    let flltro = req.params['filtro']
+      let filtro = req.params['filtro'];
       const client = await Client.find({
         $or: [
-          { name: new RegExp(flltro, 'i')},
-          { surname: new RegExp(flltro, 'i')},
-          { email: new RegExp(flltro, 'i') },
-          { n_document: new RegExp(flltro, 'i')},
-          { fullname: new RegExp(flltro, 'i') }
-          
+          { name: new RegExp(filtro, 'i') },
+          { surname: new RegExp(filtro, 'i') },
+          { email: new RegExp(filtro, 'i') },
+          { n_document: new RegExp(filtro, 'i') },
+          { fullname: new RegExp(filtro, 'i') }
         ]
-    });
-    res.status(200).send({ data: client });
-  } catch (error) {
-    res
-      .status(500)
-      .send({
-        data: undefined,
-        message: "Internal server error during collaborators query",
       });
-  }
-  }
-  // Si no está autenticado
-  else{
+      res.status(200).send({ data: client });
+    } catch (error) {
+      res.status(500).send({
+        data: undefined,
+        message: "Internal server error during clients query",
+      });
+    }
+  } else {
     return res.status(401).send({ message: "Unauthorized" });
   }
-
-
-
-}
+};
 
 module.exports = {
   registerClientAdmin,

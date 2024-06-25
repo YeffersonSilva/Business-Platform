@@ -9,7 +9,7 @@ app.post('/registerClientAdmin', authenticate.authenticate, clientController.reg
 
 app.get('/verifyAccount/:token', clientController.verifyAccount);
 
-app.get('/getClient/:filtro', authenticate.authenticate, clientController.getClient);
+app.get('/getClients/:filtro', authenticate.authenticate, clientController.getClient);
 
 
 
