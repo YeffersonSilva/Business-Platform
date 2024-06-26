@@ -28,11 +28,33 @@ export class IndexClientComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this._route.queryParams.subscribe(
+      (params:Params) => {
+        this.filtro = params.filter;
+        if (this.filtro) {
+          this.filtrar();
+        } else {
+        this.client = [];
+        }
 
+
+      }
+    );
   }
 
   init_data() {
     if (this.filtro) {
+      this._router.navigate(['/client'], { queryParams: { filter: this.filtro } });
+    }
+    else {
+      this._router.navigate(['/client'] );
+    }
+
+  }
+  filtrar(){
+
+    if (this.filtro) {
+      this.load_data = true;
       this._clienteService.getClients(this.filtro, this.token).subscribe(
         response => {
           this.client = response.data;
@@ -40,9 +62,9 @@ export class IndexClientComponent implements OnInit {
           console.log(this.client);
         }
       );
-    }
-  }
-  filtrar(){
+    }else {
+      this.client = [];
+      }
 
   }
   set_state(id:any,estado:any){

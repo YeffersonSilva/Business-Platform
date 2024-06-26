@@ -37,6 +37,7 @@ export class CreateClientComponent implements OnInit {
   registerClient(registerForm: any) {
     // Check if the form is invalid
     if (this.isFormInvalid(registerForm)) return;
+    this.client.asesor = localStorage.getItem('_id'); // Set the advisor ID
 
     this.btnRegister = true; // Change the state of the register button to true
     // Call the service to register the client
