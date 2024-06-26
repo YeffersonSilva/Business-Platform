@@ -172,9 +172,63 @@ const getClient = async (req, res) => {
   }
 };
 
+const getDataloginClient = async (req, res) => {
+  // Validar si el usuario está autenticado
+  if(req.user){
+    try {
+      let id = req.params['id'];  
+      let client = await Client.findById({_id: id});
+
+      res.status(200).send({ data: client });
+
+    } catch (error) {
+      res.status(500).send({    
+        data: undefined,
+        message: "Internal server error during collaborator state update",
+      });
+    }
+  }
+  else {
+    return res.status(401).send({ message: "Unauthorized" });
+  }
+}
+
+
+const updateClientAdmin = async (req, res) => {
+  if (req.user) {
+    let id = req.params["id"];
+  
+    const data = req.body;
+    const client = await Client.findByIdAndUpdate({ _id: id },
+      {
+        name: data.name,
+        surname: data.surname,
+        fullname: `${data.name} ${data.surname}`,
+        gender: data.gender,
+        email: data.email,
+        rol: data.rol,
+        phone: data.phone,
+        n_document: data.n_document,
+        city: data.city,
+        country: data.country,
+        birth: data.birth,
+        
+      },
+      { new: true }
+    );
+    res.status(200).send({ data: client });
+  }
+   else{
+     return res.status(401).send({ message: "Unauthorized" });
+   }
+ };
+
+
 module.exports = {
   registerClientAdmin,
   setEmail,
   verifyAccount,
-  getClient
+  getClient,
+  getDataloginClient,
+  updateClientAdmin
 };

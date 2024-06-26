@@ -210,6 +210,7 @@ const updateCollaboratorAdmin = async (req, res) => {
       {
         name: data.name,
         surname: data.surname,
+        fullname: `${data.name} ${data.surname}`,
         gender: data.gender,
         email: data.email,
         rol: data.rol,
