@@ -39,5 +39,21 @@ export class ClientService {
     return this._http.get(this.url + 'getClients/' + filtro, { headers: headers });
   }
 
+  getDataloginClient(id: any, token: any): Observable<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: token,
+    });
+    return this._http.get(this.url + 'getDataloginClient/' + id, { headers: headers });
+  }
+
+  updateClientAdmin(id: any ,data: any, token: any): Observable<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: token,
+    });
+    return this._http.put(this.url + 'updateClientAdmin/'+id, data, { headers: headers });
+  }
+
 }
 
