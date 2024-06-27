@@ -52,7 +52,7 @@ export class ClientService {
       'Content-Type': 'application/json',
       Authorization: token,
     });
-    return this._http.put(this.url + 'updateClientAdmin/'+id, data, { headers: headers });
+    return this._http.put(this.url + 'updateClientAdmin/'+ id, data, { headers: headers });
   }
 
 }

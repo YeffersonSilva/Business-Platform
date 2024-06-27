@@ -13,39 +13,45 @@ export class AsideClientComponent implements OnInit {
   public token = localStorage.getItem('token');
 
   public client: any = {
-
+    _id: '',
+    name: '',
+    email: '',
+    phone: '',
+    address: '',
+    city: '',
+    state: '',
+    country: '',
+    postal_code: '',
+    status: '',
+    created_at: '',
+    updated_at: '',
   };
   public data = false;
+
   constructor(
     private _route: ActivatedRoute,
     private clientService: ClientService
-
   ) { }
 
   ngOnInit(): void {
     this._route.params.subscribe((params) => {
       this.id = params['id'];
-
       this.load_data = true;
-      this.clientService
-        .getDataloginClient(this.id, this.token)
-        .subscribe(
-          (response) => {
-            if (response.data != undefined) {
-              this.client = response.data;
-              this.data = true;
-            } else {
-              this.data = false;
-            }
-            this.load_data = false;
-          },
-          (error) => {
-            console.error(error);
-            this.load_data = false;
+      this.clientService.getDataloginClient(this.id, this.token).subscribe(
+        (response) => {
+          if (response.data) {
+            this.client = response.data;
+            this.data = true;
+          } else {
+            this.data = false;
           }
-        );
-
+          this.load_data = false;
+        },
+        (error) => {
+          console.error(error);
+          this.load_data = false;
+        }
+      );
     });
   }
-
 }
