@@ -24,6 +24,7 @@ import { VerifyaccountComponent } from './components/verifyaccount/verifyaccount
 import { RouterModule } from '@angular/router';
 import { DeshboardClientComponent } from './components/buyer/deshboard-client/deshboard-client.component';
 import { ProspeccionClientComponent } from './components/buyer/prospeccion-client/prospeccion-client.component';
+import { AsideClientComponent } from './components/buyer/aside-client/aside-client.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { ProspeccionClientComponent } from './components/buyer/prospeccion-clien
     VerifyaccountComponent,
     DeshboardClientComponent,
     ProspeccionClientComponent,
+    AsideClientComponent,
   ],
   imports: [
     BrowserModule,
