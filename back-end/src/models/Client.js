@@ -70,7 +70,7 @@ const ClientSchema = new Schema({
         required: false
     },
     asesor: {
-        type: Schema.Types.ObjectId, ref: 'collaborator', required: false
+        type: Schema.Types.ObjectId, ref: 'Collaborator', required: false
     }
 
 });

@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Client = require('../models/Client');
 const bcrypt = require("bcrypt-nodejs");
 const jwtClient = require("../helpers/jwtClient");
@@ -9,6 +10,7 @@ const nodemailer = require('nodemailer');
 const smtpTransport = require('nodemailer-smtp-transport');
 const path = require('path');
 require('dotenv').config(); // Cargar variables de entorno desde el archivo .env
+
 
 // Función para enviar correo de verificación
 const setEmail = async (email) => {
@@ -123,7 +125,6 @@ const registerClientAdmin = async (req, res) => {
   }
 };
 
-
 const verifyAccount = async (req, res) => {
   const tokenParams = req.params['token'];
   const token = req.headers.authorization.replace(/['"]+/g, "");
@@ -173,26 +174,33 @@ const getClient = async (req, res) => {
 };
 
 const getDataloginClient = async (req, res) => {
-  // Validar si el usuario está autenticado
-  if(req.user){
+  if (req.user) {
     try {
-      let id = req.params['id'];  
-      let client = await Client.findById({_id: id});
+      let id = req.params['id'];
+      
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).send({ message: "Invalid client ID" });
+      }
+
+      let client = await Client.findById(id).populate('asesor');
+
+      if (!client) {
+        return res.status(404).send({ message: "Client not found" });
+      }
 
       res.status(200).send({ data: client });
 
     } catch (error) {
+      console.error(error);
       res.status(500).send({    
         data: undefined,
-        message: "Internal server error during collaborator state update",
+        message: "Internal server error during client data retrieval",
       });
     }
-  }
-  else {
+  } else {
     return res.status(401).send({ message: "Unauthorized" });
   }
-}
-
+};
 
 const updateClientAdmin = async (req, res) => {
   if (req.user) {

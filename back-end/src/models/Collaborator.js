@@ -1,3 +1,4 @@
+// models/Collaborator.js
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
@@ -47,8 +48,6 @@ const CollaboratorSchema = new Schema({
         type: String,
         required: false
     }
-
 });
 
 module.exports = mongoose.model('Collaborator', CollaboratorSchema);
-
