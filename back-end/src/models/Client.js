@@ -71,6 +71,11 @@ const ClientSchema = new Schema({
     },
     asesor: {
         type: Schema.Types.ObjectId, ref: 'Collaborator', required: false
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now,
+        required: true
     }
 
 });

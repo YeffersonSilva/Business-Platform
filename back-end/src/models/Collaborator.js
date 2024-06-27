@@ -47,6 +47,11 @@ const CollaboratorSchema = new Schema({
     country: {
         type: String,
         required: false
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now,
+        required: true
     }
 });
 
