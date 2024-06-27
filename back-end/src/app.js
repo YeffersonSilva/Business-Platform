@@ -6,6 +6,7 @@ const app = express();
 const testRouter = require('./routes/test');
 const collaboratorRouter = require('./routes/collaborator');
 const clientRoutes = require('./routes/client');
+const prospercionRoutes = require('./routes/prosperccion');
 
 
 const port = process.env.PORT || 3001;
@@ -45,6 +46,7 @@ app.use((req,res,next)=>{
 app.use('/api', testRouter);
 app.use('/api', collaboratorRouter);
 app.use('/api', clientRoutes);
+app.use('/api', prospercionRoutes);
 
 
 module.exports = app;
