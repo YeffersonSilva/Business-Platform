@@ -22,6 +22,8 @@ import { CreateClientComponent } from './components/client/create-client/create-
 import { EditClientComponent } from './components/client/edit-client/edit-client.component';
 import { VerifyaccountComponent } from './components/verifyaccount/verifyaccount.component';
 import { RouterModule } from '@angular/router';
+import { DeshboardClientComponent } from './components/buyer/deshboard-client/deshboard-client.component';
+import { ProspeccionClientComponent } from './components/buyer/prospeccion-client/prospeccion-client.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +41,8 @@ import { RouterModule } from '@angular/router';
     CreateClientComponent,
     EditClientComponent,
     VerifyaccountComponent,
+    DeshboardClientComponent,
+    ProspeccionClientComponent,
   ],
   imports: [
     BrowserModule,
