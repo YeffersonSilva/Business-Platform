@@ -9,6 +9,8 @@ import { IndexClientComponent } from './components/client/index-client/index-cli
 import { CreateClientComponent } from './components/client/create-client/create-client.component';
 import { EditClientComponent } from './components/client/edit-client/edit-client.component';
 import { VerifyaccountComponent } from './components/verifyaccount/verifyaccount.component';
+import { ProspeccionClientComponent } from './components/buyer/prospeccion-client/prospeccion-client.component';
+import { DeshboardClientComponent } from './components/buyer/deshboard-client/deshboard-client.component';
 
 const appRoutes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
@@ -19,8 +21,14 @@ const appRoutes: Routes = [
   { path: 'client', component: IndexClientComponent },
   { path: 'client/create', component: CreateClientComponent },
   { path: 'client/:id', component: EditClientComponent },
+  { path: 'client/buyer/:id/dashboard', component: DeshboardClientComponent },
+  { path: 'client/buyer/:id/prospeccion', component: ProspeccionClientComponent },
+
 
   { path: 'verification/:token', component: VerifyaccountComponent },
+
+
+
 
   { path: '', component: LoginComponent },
 
