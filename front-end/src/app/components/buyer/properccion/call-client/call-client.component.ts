@@ -23,6 +23,9 @@ export class CallClientComponent implements OnInit {
   public page = 1; // Definiendo la propiedad `page`
   public pageSize = 10; // Definiendo el tamaño de la página
 
+  public data = false;
+  public loadData = true;
+
   constructor(
     private _route: ActivatedRoute,
     private _clientService: ClientService
@@ -31,8 +34,20 @@ export class CallClientComponent implements OnInit {
   ngOnInit(): void {
     this._route.params.subscribe((params) => {
       this.id = params['id'];
-      this.init_data();
-    });
+      this._clientService.getClientCallsProsperccion(this.id,this.token).subscribe(
+        response=>{
+          if(response.data != undefined){
+            this.data = true;
+            this.loadData = false;
+            this.init_data();
+          }else{
+            this.data = false;
+            this.loadData = false;
+          }
+        }
+      );
+    }
+    );
   }
 
   init_data() {
