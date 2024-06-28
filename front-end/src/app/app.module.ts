@@ -25,6 +25,11 @@ import { RouterModule } from '@angular/router';
 import { DeshboardClientComponent } from './components/buyer/deshboard-client/deshboard-client.component';
 import { ProspeccionClientComponent } from './components/buyer/prospeccion-client/prospeccion-client.component';
 import { AsideClientComponent } from './components/buyer/aside-client/aside-client.component';
+import { ProspectingClientComponent } from './components/buyer/properccion/prospecting-client/prospecting-client.component';
+import { InterestClientComponent } from './components/buyer/properccion/interest-client/interest-client.component';
+import { TaskClientComponent } from './components/buyer/properccion/task-client/task-client.component';
+import { CallClientComponent } from './components/buyer/properccion/call-client/call-client.component';
+import { EmailClientComponent } from './components/buyer/properccion/email-client/email-client.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +50,11 @@ import { AsideClientComponent } from './components/buyer/aside-client/aside-clie
     DeshboardClientComponent,
     ProspeccionClientComponent,
     AsideClientComponent,
+    ProspectingClientComponent,
+    InterestClientComponent,
+    TaskClientComponent,
+    CallClientComponent,
+    EmailClientComponent,
   ],
   imports: [
     BrowserModule,
