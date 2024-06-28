@@ -1,8 +1,11 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { RouterModule, Routes } from '@angular/router';
+
 import { FormsModule } from '@angular/forms'; // Importar FormsModule
 import { HttpClientModule } from '@angular/common/http';
 import { NgbPaginationModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CommonModule } from '@angular/common'; // Asegurarse de que CommonModule está importado
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -16,12 +19,10 @@ import { IndexCollaboratorComponent } from './components/collaborator/index-coll
 import { CreateCollaboratorComponent } from './components/collaborator/create-collaborator/create-collaborator.component';
 import { EditCollaboratorComponent } from './components/collaborator/edit-collaborator/edit-collaborator.component';
 import { NotfoundComponent } from './components/notfound/notfound.component';
-
 import { IndexClientComponent } from './components/client/index-client/index-client.component';
 import { CreateClientComponent } from './components/client/create-client/create-client.component';
 import { EditClientComponent } from './components/client/edit-client/edit-client.component';
 import { VerifyaccountComponent } from './components/verifyaccount/verifyaccount.component';
-import { RouterModule } from '@angular/router';
 import { DeshboardClientComponent } from './components/buyer/deshboard-client/deshboard-client.component';
 import { ProspeccionClientComponent } from './components/buyer/prospeccion-client/prospeccion-client.component';
 import { AsideClientComponent } from './components/buyer/aside-client/aside-client.component';
@@ -52,21 +53,20 @@ import { EmailClientComponent } from './components/buyer/properccion/email-clien
     InterestClientComponent,
     TaskClientComponent,
     CallClientComponent,
-    EmailClientComponent,
+    EmailClientComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     RouterModule.forRoot([
       { path: 'login', component: LoginComponent },
-
       { path: 'client', component: IndexClientComponent },
       { path: 'collaborator', component: IndexCollaboratorComponent },
       // otras rutas
     ]),
-
     routing,
-    FormsModule, // Asegurarse de que FormsModule esté en el array de imports
+    CommonModule, // Asegurarse de que CommonModule esté en el array de imports
+    FormsModule,
     HttpClientModule,
     NgbPaginationModule,
     NgbModule,

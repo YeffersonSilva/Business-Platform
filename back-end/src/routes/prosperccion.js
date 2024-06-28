@@ -7,5 +7,6 @@ const app = express();
 
 
 app.post('/createClientCallProsperccion', authenticate.authenticate, prosperccion.createClientCallProsperccion);
+app.get('/getClientCallsProsperccion/:id', authenticate.authenticate, prosperccion.getClientCallsProsperccion);
 
 module.exports = app;

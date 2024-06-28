@@ -64,5 +64,15 @@ export class ClientService {
     });
     return this._http.post(this.url + 'createClientCallProsperccion', data, { headers: headers });
   }
+
+
+
+  getClientCallsProsperccion(id: any, token: any): Observable<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: token,
+    });
+    return this._http.get(this.url + 'getClientCallsProsperccion/' + id, { headers: headers });
+  }
 }
 

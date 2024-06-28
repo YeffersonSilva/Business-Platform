@@ -10,7 +10,6 @@ declare var $: any;
 })
 export class CallClientComponent implements OnInit {
   public id = '';
-
   public call: any = {
     result: '',
     date: '',
@@ -20,6 +19,9 @@ export class CallClientComponent implements OnInit {
   public time = { hour: 13, minute: 30 };
   public bntLoad = false;
   public token = localStorage.getItem('token');
+  public calls: Array<any> = [];
+  public page = 1; // Definiendo la propiedad `page`
+  public pageSize = 10; // Definiendo el tamaño de la página
 
   constructor(
     private _route: ActivatedRoute,
@@ -29,25 +31,40 @@ export class CallClientComponent implements OnInit {
   ngOnInit(): void {
     this._route.params.subscribe((params) => {
       this.id = params['id'];
+      this.init_data();
     });
   }
 
+  init_data() {
+    this._clientService.getClientCallsProsperccion(this.id, this.token).subscribe(
+      response => {
+        this.calls = response.data;
+      },
+      error => {
+        console.error(error);
+      }
+    );
+  }
+
   registerCall() {
-    if (this.time || this.time != undefined || this.time != null) {
+    if (this.time) {
       this.call.hour = this.time.hour + ':' + this.time.minute;
     }
 
     if (!this.call.date || !this.call.hour || !this.call.result) {
       this.showNotification('Ingrese datos Correctamente', 'danger');
     } else {
-      console.log(this.call);
       this.bntLoad = true;
+      this.call.client = this.id;
+      this.call.asesor = localStorage.getItem('_id');
       this._clientService.createClientCallProsperccion(this.call, this.token).subscribe(
         response => {
+          $('#modalLlamada').modal('hide');
           this.showNotification('Llamada Registrada Correctamente', 'success');
           this.bntLoad = false;
+        this.init_data(); // Refresh the list after registering a call
         },
-        (error) => {
+        error => {
           this.showNotification('Error al Registrar Llamada', 'danger');
           this.bntLoad = false;
         }
