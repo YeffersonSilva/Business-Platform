@@ -6,5 +6,6 @@ var authenticate = require('../middlerwares/authenticate');
 const app = express();
 
 
+app.post('/createClientCallProsperccion', authenticate.authenticate, prosperccion.createClientCallProsperccion);
 
 module.exports = app;
