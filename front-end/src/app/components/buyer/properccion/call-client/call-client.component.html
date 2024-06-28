@@ -61,7 +61,7 @@
                       Nueva llamada
                     </a>
                     <hr class="mb-5">
-                    <div *ngFor="let item of calls" class="mb-3">
+                    <div *ngFor="let item of calls | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize" class="mb-3">
                       <!--begin::Content-->
                       <div class="d-flex align-items-center flex-grow-1">
                         <!--begin::Section-->
@@ -72,27 +72,30 @@
                             <a class="text-dark-75 font-weight-bold text-hover-primary font-size-lg mb-1">
                               {{item.result}}
                               &nbsp; | &nbsp;
-                              Sheldon Cooper
+                              {{item.asesor.fullname}}
                             </a>
                             <!--end::Title-->
                             <!--begin::Data-->
                             <span class="text-muted font-weight-bold">
-                              Lunes 17, Enero - 07:58PM
+                              {{item.date}},&nbsp; {{item.hour}}
+
                             </span>
-                            <span class="text-muted font-weight-bold">
-                              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Illo doloribus recusandae ullam veniam fuga vel.
+                            <span class="text-muted font-weight-bold" *ngIf="item.note">
+                              {{item.note}}
+
                             </span>
                             <!--end::Data-->
                           </div>
                           <!--end::Info-->
                           <!--begin::Label-->
-                          <span class="label label-lg label-light-primary label-inline font-weight-bold py-4"> 17/01/2022</span>
+                          <span class="label label-lg label-light-primary label-inline font-weight-bold py-4">   {{item.createdAt|date}}</span>
                           <!--end::Label-->
                         </div>
                         <!--end::Section-->
                       </div>
                       <!--end::Content-->
                     </div>
+                    <ngb-pagination [collectionSize]="calls.length" [(page)]="page" [pageSize]="pageSize" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
                   </div>
                   <!--end::Form-->
                 </div>

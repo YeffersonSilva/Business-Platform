@@ -19,7 +19,7 @@ const getClientCallsProsperccion = async (req, res) => {
     if (req.user) {
         try {
             let id = req.params['id'];
-            let clientCalls = await ClientCall.find({client : id}).sort({ createdAt: -1 });
+            let clientCalls = await ClientCall.find({client : id}).populate('asesor').sort({ createdAt: -1 });
             res.status(200).json({ data: clientCalls });
         } catch (error) {
             console.error(error);
