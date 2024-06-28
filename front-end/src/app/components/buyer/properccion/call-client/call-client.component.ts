@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-call-client',
@@ -6,10 +7,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./call-client.component.css']
 })
 export class CallClientComponent implements OnInit {
+  public id = '';
 
-  constructor() { }
+  constructor(
+    private _route: ActivatedRoute,
+
+  ) { }
 
   ngOnInit(): void {
-  }
+    this._route.params.subscribe((params) => {
+      this.id = params['id'];
 
+    });
+
+  }
 }

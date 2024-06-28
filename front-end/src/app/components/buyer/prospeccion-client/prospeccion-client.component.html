@@ -44,8 +44,17 @@
                       <!--begin::Header-->
                       <div class="card-header py-3">
                           <div class="card-title align-items-start flex-column">
-                              <h3 class="card-label font-weight-bolder text-dark">Dashboard del cliente</h3>
+                              <h3 class="card-label font-weight-bolder text-dark">Actividades del Client</h3>
                               <span class="text-muted font-weight-bold font-size-sm mt-1">Estadisticas del cliente</span>
+                          </div>
+                          <div class="card-toolbar">
+                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                              <a [routerLink]="['/client/buyer/'+id+'/prospeccion']" class="btn btn-danger">Actividades</a>
+                              <a [routerLink]="['/client/buyer/'+id+'/prospeccion/interest']"   class="btn btn-warning">Intereses</a>
+                              <a [routerLink]="['/client/buyer/'+id+'/prospeccion/call']"  class="btn btn-success">Llamadas</a>
+                              <a [routerLink]="['/client/buyer/'+id+'/prospeccion/email']"  class="btn btn-info">Email</a>
+                              <a [routerLink]="['/client/buyer/'+id+'/prospeccion/task']"  class="btn btn-dark">Tareas</a>
+                            </div>
                           </div>
                       </div>
                       <!--end::Header-->

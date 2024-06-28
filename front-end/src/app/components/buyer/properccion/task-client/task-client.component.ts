@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-task-client',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TaskClientComponent implements OnInit {
 
-  constructor() { }
+  public id = '';
+
+  constructor(
+    private _route: ActivatedRoute,
+
+  ) { }
 
   ngOnInit(): void {
+    this._route.params.subscribe((params) => {
+      this.id = params['id'];
+
+    });
+
   }
 
 }

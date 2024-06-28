@@ -11,6 +11,10 @@ import { EditClientComponent } from './components/client/edit-client/edit-client
 import { VerifyaccountComponent } from './components/verifyaccount/verifyaccount.component';
 import { ProspeccionClientComponent } from './components/buyer/prospeccion-client/prospeccion-client.component';
 import { DeshboardClientComponent } from './components/buyer/deshboard-client/deshboard-client.component';
+import { InterestClientComponent } from './components/buyer/properccion/interest-client/interest-client.component';
+import { TaskClientComponent } from './components/buyer/properccion/task-client/task-client.component';
+import { CallClientComponent } from './components/buyer/properccion/call-client/call-client.component';
+import { EmailClientComponent } from './components/buyer/properccion/email-client/email-client.component';
 
 const appRoutes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
@@ -24,6 +28,11 @@ const appRoutes: Routes = [
   { path: 'client/buyer/:id/dashboard', component: DeshboardClientComponent },
   { path: 'client/buyer/:id/prospeccion', component: ProspeccionClientComponent },
 
+
+  { path: 'client/buyer/:id/prospeccion/interest', component: InterestClientComponent },
+  { path: 'client/buyer/:id/prospeccion/task', component: TaskClientComponent },
+  { path: 'client/buyer/:id/prospeccion/call', component: CallClientComponent },
+  { path: 'client/buyer/:id/prospeccion/email', component: EmailClientComponent },
 
   { path: 'verification/:token', component: VerifyaccountComponent },
 
