@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const ClientCallSchema = new Schema({
-    type: {
+    date: {
         type: String,
         required: true
     }, 
@@ -17,7 +17,7 @@ const ClientCallSchema = new Schema({
     },
     note: {
         type: String,
-        required: true
+        required: false
     },
     
 
