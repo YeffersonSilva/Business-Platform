@@ -6,6 +6,10 @@ import { FormsModule } from '@angular/forms'; // Importar FormsModule
 import { HttpClientModule } from '@angular/common/http';
 import { NgbPaginationModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common'; // Asegurarse de que CommonModule está importado
+import { NgxTinymceModule } from 'ngx-tinymce';
+
+
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -70,6 +74,10 @@ import { EmailClientComponent } from './components/buyer/properccion/email-clien
     HttpClientModule,
     NgbPaginationModule,
     NgbModule,
+    NgxTinymceModule.forRoot({
+      // Local assets
+      baseURL: '../../../assets/tinymce/',
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent],

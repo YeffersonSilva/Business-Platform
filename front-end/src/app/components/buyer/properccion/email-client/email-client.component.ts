@@ -13,6 +13,12 @@ export class EmailClientComponent implements OnInit {
   public data = false;
   public loadData = true;
 
+  public email: any = {
+    email: '',
+    affair: '',
+    content: ''
+  };
+
   constructor(
     private _route: ActivatedRoute,
     private _clientService: ClientService,
