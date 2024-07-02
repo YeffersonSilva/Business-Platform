@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ClientService } from 'src/app/services/client.service';
+declare var $: any;
 
 @Component({
   selector: 'app-email-client',
@@ -12,6 +13,7 @@ export class EmailClientComponent implements OnInit {
   public token = localStorage.getItem('token');
   public data = false;
   public loadData = true;
+  public bntSetEmail = false;
 
   public email: any = {
     email: '',
@@ -44,5 +46,49 @@ export class EmailClientComponent implements OnInit {
 
   init_data() {
     // console.log(this.data);
+  }
+
+  set_email() {
+
+    if (!this.email.affair ) {
+      this.showNotification('Ingrese el asunto Correctamente', 'danger');
+    } else if (!this.email.content) {
+      this.showNotification('Ingrese el contenido Correctamente', 'danger');
+    }
+    else {
+      this.bntSetEmail = true;
+      this.email.client = this.id;
+      this.email.asesor = localStorage.getItem('_id');
+      this._clientService.createClientEmailsProsperccion(this.email, this.token).subscribe(
+        response => {
+          $('#modalEmail').modal('hide');
+          this.showNotification('Se Envio el Correo', 'success');
+          this.bntSetEmail = false;
+       
+        },
+        error => {
+          this.showNotification('Error al Registrar Correo', 'danger');
+          this.bntSetEmail = false;
+        }
+      );
+    }
+
+  }
+
+  private showNotification(message: string, type: string) {
+    $.notify(message, {
+      type: type,
+      spacing: 10,
+      timer: 2000,
+      placement: {
+        from: 'top',
+        align: 'right',
+      },
+      delay: 1000,
+      animate: {
+        enter: 'animated bounce',
+        exit: 'animated bounce',
+      },
+    });
   }
 }
