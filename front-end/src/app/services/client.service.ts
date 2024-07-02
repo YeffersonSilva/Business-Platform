@@ -82,13 +82,13 @@ export class ClientService {
     });
     return this._http.post(this.url + 'createClientEmailsProsperccion', data, { headers: headers });
   }
-  
+
   getClientEmailProsperccion(id: any, token: any): Observable<any> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization: token,
     });
-    return this._http.get(this.url + '  getClientEmailProsperccion/' + id, { headers: headers });
+    return this._http.get(this.url + 'getClientEmailProsperccion/' + id, { headers: headers });
   }
 }
 

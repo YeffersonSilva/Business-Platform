@@ -6,7 +6,7 @@ declare var $: any;
 @Component({
   selector: 'app-email-client',
   templateUrl: './email-client.component.html',
-  styleUrls: ['./email-client.component.css']
+  styleUrls: ['./email-client.component.css'],
 })
 export class EmailClientComponent implements OnInit {
   public id = '';
@@ -18,19 +18,22 @@ export class EmailClientComponent implements OnInit {
   public email: any = {
     email: '',
     affair: '',
-    content: ''
+    content: '',
   };
+
+  public emails: Array<any> = [];
 
   constructor(
     private _route: ActivatedRoute,
-    private _clientService: ClientService,
-  ) { }
+    private _clientService: ClientService
+  ) {}
 
   ngOnInit(): void {
     this._route.params.subscribe((params) => {
       this.id = params['id'];
-      this._clientService.getClientCallsProsperccion(this.id, this.token).subscribe(
-        response => {
+      this._clientService
+        .getClientCallsProsperccion(this.id, this.token)
+        .subscribe((response) => {
           if (response.data != undefined) {
             this.data = true;
             this.loadData = false;
@@ -39,40 +42,41 @@ export class EmailClientComponent implements OnInit {
             this.data = false;
             this.loadData = false;
           }
-        }
-      );
+        });
     });
   }
 
   init_data() {
-    // console.log(this.data);
+    this._clientService
+      .getClientEmailProsperccion(this.id, this.token)
+      .subscribe((response) => {
+        this.emails = response.data;
+      });
   }
 
   set_email() {
-
-    if (!this.email.affair ) {
+    if (!this.email.affair) {
       this.showNotification('Ingrese el asunto Correctamente', 'danger');
     } else if (!this.email.content) {
       this.showNotification('Ingrese el contenido Correctamente', 'danger');
-    }
-    else {
+    } else {
       this.bntSetEmail = true;
       this.email.client = this.id;
       this.email.asesor = localStorage.getItem('_id');
-      this._clientService.createClientEmailsProsperccion(this.email, this.token).subscribe(
-        response => {
-          $('#modalEmail').modal('hide');
-          this.showNotification('Se Envio el Correo', 'success');
-          this.bntSetEmail = false;
-       
-        },
-        error => {
-          this.showNotification('Error al Registrar Correo', 'danger');
-          this.bntSetEmail = false;
-        }
-      );
+      this._clientService
+        .createClientEmailsProsperccion(this.email, this.token)
+        .subscribe(
+          (response) => {
+            $('#modalEmail').modal('hide');
+            this.showNotification('Se Envio el Correo', 'success');
+            this.bntSetEmail = false;
+          },
+          (error) => {
+            this.showNotification('Error al Registrar Correo', 'danger');
+            this.bntSetEmail = false;
+          }
+        );
     }
-
   }
 
   private showNotification(message: string, type: string) {

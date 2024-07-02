@@ -102,7 +102,7 @@
                         </div>
                         <ng-container *ngIf="!loadData">
                           <div class="row" *ngIf="data">
-                            <div class="col-12">
+                            <div class="col-12" *ngFor="let item of emails">
                               <div>
                                   <!--begin::Message-->
                                   <div class="cursor-pointer shadow-xs toggle-off mb-3" data-inbox="message">
@@ -112,7 +112,7 @@
                                           <!--begin::User Details-->
                                           <div class="d-flex flex-column flex-grow-1 flex-wrap mr-2">
                                               <div class="d-flex">
-                                                  <a class="font-size-lg font-weight-bolder text-dark-75 text-hover-primary mr-2">Promoción de verano</a>
+                                                  <a class="font-size-lg font-weight-bolder text-dark-75 text-hover-primary mr-2"> {{item.affair}} </a>
                                                   <div class="font-weight-bold text-muted">
                                                       <span class="label label-success label-dot mr-2"></span>Enviado
                                                   </div>
