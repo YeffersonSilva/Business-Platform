@@ -102,7 +102,7 @@
                         </div>
                         <ng-container *ngIf="!loadData">
                           <div class="row" *ngIf="data">
-                            <div class="col-12" *ngFor="let item of emails">
+                            <div class="col-12" *ngFor="let item of emails | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                               <div>
                                   <!--begin::Message-->
                                   <div class="cursor-pointer shadow-xs toggle-off mb-3" data-inbox="message">
@@ -118,25 +118,25 @@
                                                   </div>
                                               </div>
                                               <div class="d-flex flex-column">
-                                                  <div class="text-muted font-weight-bold toggle-on-item" data-inbox="toggle">
-                                                      <span class="label label-warning label-dot mr-2"></span>Enviado por: Diego Arroyo Campos
+                                                  <div class="text-muted font-weight-bold toggle-on-item" data-inbox="toggle" >
+                                                      <span class="label label-warning label-dot mr-2"></span>Enviado por: {{item.asesor.fullname}}
                                                   </div>
-                                                  <div class="text-muted font-weight-bold toggle-on-item" data-inbox="toggle">
+                                                  <div class="text-muted font-weight-bold toggle-on-item" data-inbox="toggle" (click)="toggleEmail(item._id)">
                                                       <a style="cursor: pointer;" class="text-primary">Ver mensaje</a>
                                                   </div>
                                               </div>
                                           </div>
                                           <div class="d-flex align-items-center">
-                                              <div class="font-weight-bold text-muted mr-2">Hace 2 días</div>
+                                              <div class="font-weight-bold text-muted mr-2">{{item.createdAt|date}} </div>
                                           </div>
                                           <!--end::User Details-->
                                       </div>
                                       <!--end::Info-->
                                       <!--begin::Comment-->
-                                      <div class="card-spacer-x pt-2 pb-5 toggle-off-item">
+                                      <div class="card-spacer-x pt-2 pb-5 toggle-off-item" [attr.id]="'card_'+item._id">
                                           <!--begin::Text-->
-                                          <div class="mb-1">
-                                              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Natus nihil id explicabo officiis soluta nostrum error quaerat nisi eos, ea quia earum velit veniam, corrupti corporis beatae assumenda, quisquam quis.</p>
+                                          <div class="mb-1" [innerHTML]="item.content">
+
                                           </div>
                                       </div>
                                       <!--end::Comment-->
@@ -144,6 +144,10 @@
                                   <!--end::Message-->
                               </div>
                             </div>
+                           <div class="col-12">
+                            <ngb-pagination [collectionSize]="emails.length" [(page)]="page" [pageSize]="pageSize" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
+                           </div>
+
                           </div>
                           <ng-container *ngIf="!data">
                             <app-notfound></app-notfound>

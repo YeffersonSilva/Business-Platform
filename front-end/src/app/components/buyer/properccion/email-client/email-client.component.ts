@@ -14,7 +14,8 @@ export class EmailClientComponent implements OnInit {
   public data = false;
   public loadData = true;
   public bntSetEmail = false;
-
+public page = 1; // Definiendo la propiedad `page`
+  public pageSize = 5; // Definiendo el tamaño de la página
   public email: any = {
     email: '',
     affair: '',
@@ -70,6 +71,7 @@ export class EmailClientComponent implements OnInit {
             $('#modalEmail').modal('hide');
             this.showNotification('Se Envio el Correo', 'success');
             this.bntSetEmail = false;
+            this.init_data();
           },
           (error) => {
             this.showNotification('Error al Registrar Correo', 'danger');
@@ -95,4 +97,16 @@ export class EmailClientComponent implements OnInit {
       },
     });
   }
+
+  toggleEmail(id:any){
+    var clase = $('#card_'+id).attr('class');
+
+    if(clase=='card-spacer-x pt-2 pb-5 toggle-off-item'){
+      $('#card_'+id).removeClass('toggle-off-item');
+      $('#card_'+id).addClass('toggle-on-item');
+    }else if(clase=='card-spacer-x pt-2 pb-5 toggle-on-item'){
+      $('#card_'+id).removeClass('toggle-on-item');
+      $('#card_'+id).addClass('toggle-off-item');
+    }
+ }
 }
