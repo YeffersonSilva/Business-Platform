@@ -63,4 +63,12 @@ export class CollaboratorService {
       headers: headers,
     });
   }
+
+  getAsesor(token: any): Observable<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: token,
+    });
+    return this._http.get(this.url + 'getAsesor', { headers: headers });
+  }
 }
