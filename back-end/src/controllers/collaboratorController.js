@@ -226,7 +226,32 @@ const updateCollaboratorAdmin = async (req, res) => {
    else{
      return res.status(401).send({ message: "Unauthorized" });
    }
- };
+};
+ 
+
+const getAsesor = async (req, res) => {
+  // Validar si el usuario está autenticado
+  if(req.user){
+  try {
+    const collaborators = await Collaborator.find({rol: "Asesor", state :true}).select('_id fullname name surname');
+    res.status(200).send({ data: collaborators });
+  } catch (error) {
+    res
+      .status(500)
+      .send({
+        data: undefined,
+        message: "Internal server error during collaborators query",
+      });
+  }
+  }
+  // Si no está autenticado
+  else{
+    return res.status(401).send({ message: "Unauthorized" });
+  }
+
+
+
+}
 
 module.exports = {
   registerCollaboratorAdmin,
@@ -234,5 +259,6 @@ module.exports = {
   getCollaborators,
   setState,
   getDataloginCollaborator,
-  updateCollaboratorAdmin
+  updateCollaboratorAdmin,
+  getAsesor
 };

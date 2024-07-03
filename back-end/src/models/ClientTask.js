@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const ClientTaskSchema = new Schema({
-    title: {
+    task: {
         type: String,
         required: true
     },
@@ -19,12 +19,13 @@ const ClientTaskSchema = new Schema({
         type: String,
         required: true
     },
-    tipe: {
+    type: {
         type: String,
         required: true
     },
     state: {
         type: Boolean,
+        default: false,
         required: true
     },
     
