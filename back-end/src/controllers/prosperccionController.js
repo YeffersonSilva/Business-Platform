@@ -8,6 +8,7 @@ require('dotenv').config(); // Cargar variables de entorno desde el archivo .env
 const Client = require('../models/Client'); // Asegúrate de que este sea el modelo correcto
 const ClientEmails = require('../models/ClientEmail');
 const ClientCall = require('../models/ClientCall');  // Asegúrate de importar el modelo correctamente
+const ClientTask = require('../models/ClientTask'); 
 
 // Call
 const createClientCallProsperccion = async (req, res) => {
@@ -147,10 +148,29 @@ const getClientEmailProsperccion = async (req, res) => {
         res.status(401).json({ data: undefined, message: 'Unauthorized' });
     }
 };
+////////// Taks
+
+const createClientTaksProsperccion = async (req, res) => {
+    if (req.user) {
+        let data = req.body;
+        try {
+            let task = await ClientTask.create(data);
+            res.status(201).json({ data: task });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ data: undefined, message: 'Internal server error during client task creation' });
+        }
+    } else {
+        res.status(401).json({ data: undefined, message: 'Unauthorized' });
+    }
+};
+
+
 
 module.exports = {
     createClientCallProsperccion,
     getClientCallsProsperccion,
     createClientEmailsProsperccion,
-    getClientEmailProsperccion
+    getClientEmailProsperccion,
+    createClientTaksProsperccion
 };

@@ -10,8 +10,10 @@ const app = express();
 
 app.post('/createClientCallProsperccion', authenticate.authenticate, prosperccion.createClientCallProsperccion);
 app.get('/getClientCallsProsperccion/:id', authenticate.authenticate, prosperccion.getClientCallsProsperccion);
-app.post('/createClientEmailsProsperccion', authenticate.authenticate, prosperccion.createClientEmailsProsperccion);
 
+app.post('/createClientEmailsProsperccion', authenticate.authenticate, prosperccion.createClientEmailsProsperccion);
 app.get('/getClientEmailProsperccion/:id', authenticate.authenticate, prosperccion.getClientEmailProsperccion);
+
+app.post('/createClientTaskProsperccion', authenticate.authenticate, prosperccion.createClientTaksProsperccion);
 
 module.exports = app;
