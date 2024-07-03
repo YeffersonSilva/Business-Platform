@@ -30,7 +30,6 @@ export class ClientService {
   }
 
 
-
   getClients(filtro: any, token: any): Observable<any> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -56,7 +55,6 @@ export class ClientService {
   }
 
 
-
   createClientCallProsperccion(data: any, token: any): Observable<any> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -64,7 +62,6 @@ export class ClientService {
     });
     return this._http.post(this.url + 'createClientCallProsperccion', data, { headers: headers });
   }
-
 
 
   getClientCallsProsperccion(id: any, token: any): Observable<any> {
@@ -89,6 +86,14 @@ export class ClientService {
       Authorization: token,
     });
     return this._http.get(this.url + 'getClientEmailProsperccion/' + id, { headers: headers });
+  }
+
+  createClientTaskProsperccion(data: any, token: any): Observable<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: token,
+    });
+    return this._http.post(this.url + 'createClientTaskProsperccion', data, { headers: headers });
   }
 }
 
