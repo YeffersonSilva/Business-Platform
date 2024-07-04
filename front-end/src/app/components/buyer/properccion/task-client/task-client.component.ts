@@ -26,6 +26,7 @@ export class TaskClientComponent implements OnInit {
 
 
   }
+  public tasks: Array<any> = [];
   public asesor: Array<any> = [];
   public time = { hour: 13, minute: 30 };
   public dates = GLOBAL.dates;
@@ -45,6 +46,7 @@ export class TaskClientComponent implements OnInit {
           if (response.data != undefined) {
             this.data = true;
             this.loadData = false;
+            this.initAsesor()
             this.init_data();
           } else {
             this.data = false;
@@ -53,14 +55,29 @@ export class TaskClientComponent implements OnInit {
         });
     });
   }
+  initAsesor() {
+    this._colloboratorService.getCollaborators(this.token).subscribe(
+      (response) => {
+        this.asesor = response.data;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
   init_data() {
 
-    this._colloboratorService.getCollaborators(this.token).subscribe(
+    this._clientService.getClientTaskProsperccion(this.id,this.token).subscribe(
       response => {
-
-      this.asesor = response.data;
-    });
+        this.tasks = response.data;
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
+
   registerTask()
   {
     if (this.time) {
@@ -83,7 +100,8 @@ export class TaskClientComponent implements OnInit {
           };
           this.showNotification('Llamada Registrada Correctamente', 'success');
           this.btnTask = false;
-        this.init_data(); // Refresh the list after registering a call
+          this.init_data(); // Refresh the list after registering a call
+          
         },
         error => {
           this.showNotification('Error al Registrar Llamada', 'danger');

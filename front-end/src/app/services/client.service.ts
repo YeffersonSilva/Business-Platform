@@ -96,6 +96,15 @@ export class ClientService {
     return this._http.post(this.url + 'createClientTaskProsperccion', data, { headers: headers });
   }
 
+  getClientTaskProsperccion(id: any, token: any): Observable<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: token,
+    });
+    return this._http.get(this.url + 'getClientTaskProsperccion/' + id, { headers: headers });
+  }
+
+
 
 }
 
