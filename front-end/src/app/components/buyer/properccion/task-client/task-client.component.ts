@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { GLOBAL } from 'src/app/services/GLOBAL';
 import { ClientService } from 'src/app/services/client.service';
 import { CollaboratorService } from 'src/app/services/collaborator.service';
 declare var $: any;
@@ -27,6 +28,7 @@ export class TaskClientComponent implements OnInit {
   }
   public asesor: Array<any> = [];
   public time = { hour: 13, minute: 30 };
+  public dates = GLOBAL.dates;
 
   constructor(
     private _route: ActivatedRoute,
