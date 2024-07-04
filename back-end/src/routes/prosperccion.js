@@ -16,4 +16,6 @@ app.get('/getClientEmailProsperccion/:id', authenticate.authenticate, prospercci
 
 app.post('/createClientTaskProsperccion', authenticate.authenticate, prosperccion.createClientTaksProsperccion);
 
+app.get('/getClientTaskProsperccion/:id', authenticate.authenticate, prosperccion.getClientTaskProsperccion);
+
 module.exports = app;

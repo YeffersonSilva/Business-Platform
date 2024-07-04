@@ -166,11 +166,28 @@ const createClientTaksProsperccion = async (req, res) => {
 };
 
 
+const getClientTaskProsperccion = async (req, res) => {
+    if (req.user) {
+        try {
+            let id = req.params['id'];
+            let task = await ClientTask.find({client : id}).populate('asesor').populate('asesorCheck').sort({ createdAt: -1 });
+            res.status(200).json({ data: task });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ data: undefined, message: 'Internal server error during client calls fetching' });
+        }
+    } else {
+        res.status(401).json({ data: undefined, message: 'Unauthorized' });
+    }
+};
+
+
 
 module.exports = {
     createClientCallProsperccion,
     getClientCallsProsperccion,
     createClientEmailsProsperccion,
     getClientEmailProsperccion,
-    createClientTaksProsperccion
+    createClientTaksProsperccion,
+    getClientTaskProsperccion
 };
