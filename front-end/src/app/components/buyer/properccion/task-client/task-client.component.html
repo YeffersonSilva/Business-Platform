@@ -321,26 +321,26 @@
                               <tr *ngFor="let item of tasks">
                                 <td class="p-0 py-4">
                                   <!-- ESTADO == FALSE -->
-                                  <div
+                                  <div *ngIf="!item.state"
                                     class="symbol symbol-50 symbol-light mr-5"
                                   >
                                     <span class="symbol-label">
-                                      <!-- <i class="flaticon-notepad text-primary icon-lg"></i> -->
-                                      <!-- VENTA -->
-                                      <!-- <i class="flaticon-email text-primary icon-lg"></i> -->
-                                      <!-- CORREO -->
-                                      <i
+                                      <i *ngIf="item.type == 'Venta'" class="flaticon-notepad text-primary icon-lg" ></i>
+
+                                       <i *ngIf="item.type == 'Correo'"  class="flaticon-email text-primary icon-lg"></i>
+
+                                      <i *ngIf="item.type == 'Llamada'"
                                         class="flaticon2-phone text-primary icon-lg"
                                       ></i>
-                                      <!-- LLAMADA -->
+
                                     </span>
                                   </div>
                                   <!-- ESTADO == TRUE -->
-                                  <!-- <div class="symbol symbol-50 symbol-light mr-5">
+                                  <div  *ngIf="item.state" class="symbol symbol-50 symbol-light mr-5">
                           <span class="symbol-label" style="background-color: #3699ff;">
                               <i class="flaticon2-check-mark text-white icon-lg"></i>
                           </span>
-                      </div> -->
+                      </div>
                                 </td>
                                 <td class="pl-0">
                                   <a
@@ -355,7 +355,7 @@
                                     >
                                     <a
                                       class="text-muted font-weight-bold text-hover-primary"
-                                      >&nbsp; Llamada</a
+                                      >&nbsp; {{item.type}} </a
                                     >
                                   </div>
                                 </td>
@@ -364,7 +364,7 @@
                                     class="text-dark-75 font-weight-bolder d-block font-size-lg"
                                   >
                                     <!-- ASESOR -->
-                                    Diego Alonso Arroyo
+                                    {{item.asesor.name}}
                                   </span>
                                   <!-- <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
                          No asignado
@@ -376,24 +376,23 @@
 
                                 <td class="text-right">
                                   <!-- PRIORIDAD -->
-                                  <span
+                                  <span *ngIf="item.priority == 'Alta'"
                                     style="cursor: pointer"
                                     class="label label-lg label-light-danger label-inline"
                                   >
                                     Alta
                                   </span>
-                                  <!-- <span style="cursor: pointer;" class="label label-lg label-light-primary label-inline">
+                                  <span *ngIf="item.priority == 'Ninguna'" style="cursor: pointer;" class="label label-lg label-light-primary label-inline" >
                           Ninguna
-                      </span> -->
+                      </span>
                                 </td>
                                 <td class="pr-0 text-right">
                                   <span
                                     class="text-dark-75 font-weight-bolder d-block font-size-lg"
                                   >
-                                    23/01/2022
-                                  </span>
+                                  {{item.date|date}}                                  </span>
                                   <span class="text-muted font-weight-bold"
-                                    ><b>Hora:</b> 07:21</span
+                                    ><b>Hora:</b> {{item.hora}}</span
                                   >
                                 </td>
                               </tr>

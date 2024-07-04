@@ -15,6 +15,10 @@ const ClientTaskSchema = new Schema({
         type: String,
         required: true
     }, 
+    hora: {
+        type: String,
+        required: false
+    }, 
     note: {
         type: String,
         required: true
