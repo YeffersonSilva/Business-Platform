@@ -1,21 +1,27 @@
 const express = require('express');
 const nodemailer = require('nodemailer');
 
-
-var prosperccion = require('../controllers/prosperccionController');
-var authenticate = require('../middlerwares/authenticate');
+const prosperccion = require('../controllers/prosperccionController');
+const authenticate = require('../middlewares/authenticate');
 
 const app = express();
 
+// Route to create a new client call
+app.post('/createClientCallProspeccion', authenticate.authenticate, prosperccion.createClientCallProspeccion);
 
-app.post('/createClientCallProsperccion', authenticate.authenticate, prosperccion.createClientCallProsperccion);
-app.get('/getClientCallsProsperccion/:id', authenticate.authenticate, prosperccion.getClientCallsProsperccion);
+// Route to get client calls by client ID
+app.get('/getClientCallsProspeccion/:id', authenticate.authenticate, prosperccion.getClientCallsProspeccion);
 
-app.post('/createClientEmailsProsperccion', authenticate.authenticate, prosperccion.createClientEmailsProsperccion);
-app.get('/getClientEmailProsperccion/:id', authenticate.authenticate, prosperccion.getClientEmailProsperccion);
+// Route to create a new client email
+app.post('/createClientEmailsProspeccion', authenticate.authenticate, prosperccion.createClientEmailsProspeccion);
 
-app.post('/createClientTaskProsperccion', authenticate.authenticate, prosperccion.createClientTaksProsperccion);
+// Route to get client emails by client ID
+app.get('/getClientEmailProspeccion/:id', authenticate.authenticate, prosperccion.getClientEmailProspeccion);
 
-app.get('/getClientTaskProsperccion/:id', authenticate.authenticate, prosperccion.getClientTaskProsperccion);
+// Route to create a new client task
+app.post('/createClientTaskProspeccion', authenticate.authenticate, prosperccion.createClientTaskProspeccion);
+
+// Route to get client tasks by client ID
+app.get('/getClientTaskProspeccion/:id', authenticate.authenticate, prosperccion.getClientTaskProspeccion);
 
 module.exports = app;
