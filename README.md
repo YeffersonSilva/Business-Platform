@@ -40,3 +40,17 @@ Follow the steps below to install and run the application on your local environm
 ```bash
 git clone https://github.com/YeffersonSilva/Business-Platform.git
 cd Business-Platform
+```
+
+## Configuration
+
+### Docker Configuration
+
+This project uses Docker and Docker Compose to manage and run the application. Ensure you have Docker and Docker Compose installed on your machine.
+
+1. **Build and Run the Application:**
+
+   From the root of the project directory, run the following command to build and start the containers:
+
+   ```bash
+   docker-compose up --build
