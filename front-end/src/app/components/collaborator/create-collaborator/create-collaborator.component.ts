@@ -20,52 +20,44 @@ export class CreateCollaboratorComponent implements OnInit {
     country: '',
   };
   public btnRegister = false;
-  public token: any = localStorage.getItem('token');
+  public token: string | null = localStorage.getItem('token');
 
   constructor(
-    private _collaboratorService: CollaboratorService,
-    private _router: Router
+    private collaboratorService: CollaboratorService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {}
 
-  registerCollaborator(registerForm: any) {
+  // Function to register a new collaborator
+  registerCollaborator(registerForm: any): void {
     this.btnRegister = true;
     if (registerForm.valid) {
-      this.btnRegister = true;
+      console.log(this.collaborator); // For debugging
 
-      console.log(this.collaborator); // Para depuración
-      this._collaboratorService
-        .updateCollaborator(this.collaborator, this.token)
-        .subscribe(
-          (response) => {
-            if (response == undefined || !response.data) {
-              this.showNotification('Complete el formulario', 'danger');
-            } else {
-              setTimeout(() => {
-                this.btnRegister = false;
-              }, 3000);
-              this.showNotification(
-                'Colaborador registrado con éxito',
-                'success'
-              );
-              this._router.navigate(['/collaborator']);
-            }
-          },
-          (error) => {
-            this.showNotification(
-              'Error en el registro: ' + error.message,
-              'danger'
-            );
+      this.collaboratorService.updateCollaborator(this.collaborator, this.token).subscribe(
+        (response) => {
+          if (!response || !response.data) {
+            this.showNotification('Please complete the form', 'danger');
+          } else {
+            this.showNotification('Collaborator registered successfully', 'success');
+            this.router.navigate(['/collaborator']);
           }
-        );
-      this.btnRegister = false;
+          this.btnRegister = false;
+        },
+        (error) => {
+          this.showNotification('Registration error: ' + error.message, 'danger');
+          this.btnRegister = false;
+        }
+      );
     } else {
-      this.showNotification('Complete el formulario', 'danger');
+      this.showNotification('Please complete the form', 'danger');
+      this.btnRegister = false;
     }
   }
 
-  private showNotification(message: string, type: string) {
+  // Function to show notifications
+  private showNotification(message: string, type: string): void {
     $.notify(message, {
       type: type,
       spacing: 10,

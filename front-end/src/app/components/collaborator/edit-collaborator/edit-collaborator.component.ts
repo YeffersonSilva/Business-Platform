@@ -21,66 +21,69 @@ export class EditCollaboratorComponent implements OnInit {
     country: '',
   };
   public btnUpdate = false;
-  public token: any = localStorage.getItem('token');
+  public token: string | null = localStorage.getItem('token');
   public load_data = false;
   public data = false;
 
   constructor(
-    private _collaboratorService: CollaboratorService,
-    private _router: Router,
-    private _route: ActivatedRoute
+    private collaboratorService: CollaboratorService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this._route.params.subscribe((params) => {
+    // Subscribe to route parameters to get the collaborator ID
+    this.route.params.subscribe((params) => {
       this.id = params['id'];
       this.load_data = true;
-      this._collaboratorService
-        .getDataloginCollaborator(this.id, this.token)
-        .subscribe(
-          (response) => {
-            if (response.data != null) {
-              this.collaborator = response.data;
-              this.data = true;
-            } else {
-              this.data = false;
-            }
-            this.load_data = false;
-          },
-          (error) => {
-            console.error(error);
-            this.load_data = false;
+
+      // Fetch collaborator data
+      this.collaboratorService.getDataloginCollaborator(this.id, this.token).subscribe(
+        (response) => {
+          if (response.data != null) {
+            this.collaborator = response.data;
+            this.data = true;
+          } else {
+            this.data = false;
           }
-        );
+          this.load_data = false;
+        },
+        (error) => {
+          console.error(error);
+          this.load_data = false;
+        }
+      );
     });
   }
 
-  update(updateForm: any) {
+  // Function to update collaborator details
+  update(updateForm: any): void {
     if (updateForm.valid) {
       this.btnUpdate = true;
-      this._collaboratorService
-        .updateCollaboratorAdmin(this.id, this.collaborator, this.token)
-        .subscribe(
-          (response) => {
-            if (response && response.data) {
-              this.showNotification('Colaborador se actualizó con éxito', 'success');
-              this._router.navigate(['/collaborator']);
-            } else {
-              this.showNotification('Error al actualizar el colaborador', 'danger');
-            }
-            this.btnUpdate = false;
-          },
-          (error) => {
-            this.showNotification('Error en la actualización: ' + error.message, 'danger');
-            this.btnUpdate = false;
+
+      // Update collaborator data
+      this.collaboratorService.updateCollaboratorAdmin(this.id, this.collaborator, this.token).subscribe(
+        (response) => {
+          if (response && response.data) {
+            this.showNotification('Collaborator updated successfully', 'success');
+            this.router.navigate(['/collaborator']);
+          } else {
+            this.showNotification('Error updating collaborator', 'danger');
           }
-        );
+          this.btnUpdate = false;
+        },
+        (error) => {
+          this.showNotification('Update error: ' + error.message, 'danger');
+          this.btnUpdate = false;
+        }
+      );
     } else {
-      this.showNotification('Complete el formulario', 'danger');
+      this.showNotification('Please complete the form', 'danger');
     }
   }
 
-  private showNotification(message: string, type: string) {
+  // Function to show notifications
+  private showNotification(message: string, type: string): void {
     $.notify(message, {
       type: type,
       spacing: 10,
