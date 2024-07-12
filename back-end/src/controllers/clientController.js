@@ -9,20 +9,21 @@ const ejs = require('ejs');
 const nodemailer = require('nodemailer');
 const smtpTransport = require('nodemailer-smtp-transport');
 const path = require('path');
-require('dotenv').config(); // Cargar variables de entorno desde el archivo .env
+require('dotenv').config(); // Load environment variables from .env file
 
-
-// Función para enviar correo de verificación
+// Function to send verification email
 const setEmail = async (email) => {
-  console.log(`Iniciando el envío de correo a: ${email}`);
+  console.log(`Starting email send to: ${email}`);
 
-  const readHTMLFile = (filePath, callback) => {
-    fs.readFile(filePath, { encoding: 'utf-8' }, (err, html) => {
-      if (err) {
-        callback(err);
-      } else {
-        callback(null, html);
-      }
+  const readHTMLFile = (filePath) => {
+    return new Promise((resolve, reject) => {
+      fs.readFile(filePath, { encoding: 'utf-8' }, (err, html) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(html);
+        }
+      });
     });
   };
 
@@ -42,172 +43,161 @@ const setEmail = async (email) => {
     }
 
     const token = jwtClient.createToken(client);
-
     const filePath = path.join(process.cwd(), 'src', 'mails', 'account_verify.html');
-    console.log(`Leyendo archivo HTML de: ${filePath}`);
+    console.log(`Reading HTML file from: ${filePath}`);
 
-    readHTMLFile(filePath, (err, html) => {
-      if (err) {
-        console.error('Error leyendo el archivo HTML:', err);
-        return;
+    const html = await readHTMLFile(filePath);
+    const rest_html = ejs.render(html, { token });
+    const template = handlebars.compile(rest_html);
+    const htmlToSend = template({ op: true });
+
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: 'Account Verification',
+      html: htmlToSend
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error('Error sending email:', error);
+      } else {
+        console.log('Email sent:', info.response);
       }
-
-      const rest_html = ejs.render(html, { token });
-      const template = handlebars.compile(rest_html);
-      const htmlToSend = template({ op: true });
-
-      const mailOptions = {
-        from: process.env.EMAIL_USER,
-        to: email,
-        subject: 'Verificación de cuenta',
-        html: htmlToSend
-      };
-
-      transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-          console.error('Error enviando el correo:', error);
-        } else {
-          console.log('Correo enviado:', info.response);
-        }
-      });
     });
   } catch (error) {
-    console.error('Error en setEmail:', error.message);
+    console.error('Error in setEmail:', error.message);
   }
 };
 
-
+// Function to register a new client admin
 const registerClientAdmin = async (req, res) => {
-  if (req.user) {
-    const data = req.body;
-
-    if (!data.name || !data.surname || !data.email) {
-      return res.status(400).send({ data: undefined, message: "All fields are required" });
-    }
-
-    try {
-      const existingClient = await Client.findOne({ email: data.email });
-
-      if (existingClient) {
-        return res.status(400).send({ data: undefined, message: "The email is already registered" });
-      }
-
-      bcrypt.hash(data.password, bcrypt.genSaltSync(10), null, async (err, hash) => {
-        if (err) {
-          return res.status(500).send({
-            data: undefined,
-            message: "Internal server error during password hashing",
-          });
-        } else {
-          data.fullname = `${data.name} ${data.surname}`;
-          data.password = hash;
-
-          const newClient = new Client(data);
-
-          const validationError = newClient.validateSync();
-          if (validationError) {
-            return res.status(400).send({ data: undefined, message: validationError.message });
-          }
-
-          await newClient.save();
-          await setEmail(newClient.email);
-          res.status(201).send({ data: newClient });
-        }
-      });
-    } catch (error) {
-      return res.status(500).send({
-        data: undefined,
-        message: "Internal server error during registration",
-      });
-    }
-  } else {
+  if (!req.user) {
     return res.status(401).send({ message: "Unauthorized" });
+  }
+
+  const data = req.body;
+
+  if (!data.name || !data.surname || !data.email || !data.password) {
+    return res.status(400).send({ data: undefined, message: "All fields are required" });
+  }
+
+  try {
+    const existingClient = await Client.findOne({ email: data.email });
+
+    if (existingClient) {
+      return res.status(400).send({ data: undefined, message: "The email is already registered" });
+    }
+
+    const hash = await bcrypt.hashSync(data.password, bcrypt.genSaltSync(10));
+    data.fullname = `${data.name} ${data.surname}`;
+    data.password = hash;
+
+    const newClient = new Client(data);
+
+    const validationError = newClient.validateSync();
+    if (validationError) {
+      return res.status(400).send({ data: undefined, message: validationError.message });
+    }
+
+    await newClient.save();
+    await setEmail(newClient.email);
+    res.status(201).send({ data: newClient });
+  } catch (error) {
+    res.status(500).send({
+      data: undefined,
+      message: "Internal server error during registration",
+    });
   }
 };
 
+// Function to verify client account
 const verifyAccount = async (req, res) => {
-  const tokenParams = req.params['token'];
+  const tokenParams = req.params.token;
   const token = req.headers.authorization.replace(/['"]+/g, "");
-  const segment = token.split('.');
+  const segments = token.split('.');
 
-  if (segment.length !== 3) {
+  if (segments.length !== 3) {
     return res.status(401).send({ message: "Invalid token format" });
-  } else {
-    try {
-      const payload = jwt.decode(token, process.env.JWT_SECRET);
-      await Client.findOneAndUpdate({ _id: payload.id }, { verify: true });
-      res.status(200).send({ message: "Account verified" });
-    }
-    catch (error) {
-      console.log(error); 
-      return res.status(401).send({ message: "Invalid token" });
-    }
+  }
 
-  };
-}
+  try {
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    await Client.findByIdAndUpdate(payload.id, { verify: true });
+    res.status(200).send({ message: "Account verified" });
+  } catch (error) {
+    console.error(error);
+    res.status(401).send({ message: "Invalid token" });
+  }
+};
 
-
-
+// Function to get clients based on filter
 const getClient = async (req, res) => {
-  if (req.user) {
-    try {
-      let filtro = req.params['filtro'];
-      const client = await Client.find({
-        $or: [
-          { name: new RegExp(filtro, 'i') },
-          { surname: new RegExp(filtro, 'i') },
-          { email: new RegExp(filtro, 'i') },
-          { n_document: new RegExp(filtro, 'i') },
-          { fullname: new RegExp(filtro, 'i') }
-        ]
-      });
-      res.status(200).send({ data: client });
-    } catch (error) {
-      res.status(500).send({
-        data: undefined,
-        message: "Internal server error during clients query",
-      });
-    }
-  } else {
+  if (!req.user) {
     return res.status(401).send({ message: "Unauthorized" });
+  }
+
+  try {
+    const filter = req.params.filtro;
+    const clients = await Client.find({
+      $or: [
+        { name: new RegExp(filter, 'i') },
+        { surname: new RegExp(filter, 'i') },
+        { email: new RegExp(filter, 'i') },
+        { n_document: new RegExp(filter, 'i') },
+        { fullname: new RegExp(filter, 'i') }
+      ]
+    });
+    res.status(200).send({ data: clients });
+  } catch (error) {
+    res.status(500).send({
+      data: undefined,
+      message: "Internal server error during clients query",
+    });
   }
 };
 
+// Function to get client login data by ID
 const getDataloginClient = async (req, res) => {
-  if (req.user) {
-    try {
-      let id = req.params['id'];
-      
-      if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).send({ message: "Invalid client ID" });
-      }
-
-      let client = await Client.findById(id).populate('asesor');
-
-      if (!client) {
-        return res.status(404).send({ message: "Client not found" });
-      }
-
-      res.status(200).send({ data: client });
-
-    } catch (error) {
-      console.error(error);
-      res.status(500).send({    
-        data: undefined,
-        message: "Internal server error during client data retrieval",
-      });
-    }
-  } else {
+  if (!req.user) {
     return res.status(401).send({ message: "Unauthorized" });
+  }
+
+  try {
+    const id = req.params.id;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).send({ message: "Invalid client ID" });
+    }
+
+    const client = await Client.findById(id).populate('asesor');
+
+    if (!client) {
+      return res.status(404).send({ message: "Client not found" });
+    }
+
+    res.status(200).send({ data: client });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({
+      data: undefined,
+      message: "Internal server error during client data retrieval",
+    });
   }
 };
 
+// Function to update client admin details
 const updateClientAdmin = async (req, res) => {
-  if (req.user) {
-    let id = req.params["id"];
-  
-    const data = req.body;
-    const client = await Client.findByIdAndUpdate({ _id: id },
+  if (!req.user) {
+    return res.status(401).send({ message: "Unauthorized" });
+  }
+
+  const id = req.params.id;
+  const data = req.body;
+
+  try {
+    const updatedClient = await Client.findByIdAndUpdate(
+      id,
       {
         name: data.name,
         surname: data.surname,
@@ -220,17 +210,18 @@ const updateClientAdmin = async (req, res) => {
         city: data.city,
         country: data.country,
         birth: data.birth,
-        
       },
       { new: true }
     );
-    res.status(200).send({ data: client });
-  }
-   else{
-     return res.status(401).send({ message: "Unauthorized" });
-   }
- };
 
+    res.status(200).send({ data: updatedClient });
+  } catch (error) {
+    res.status(500).send({
+      data: undefined,
+      message: "Internal server error during client update",
+    });
+  }
+};
 
 module.exports = {
   registerClientAdmin,

@@ -4,38 +4,39 @@ const moment = require('moment');
 
 const secret = process.env.JWT_SECRET;
 
+// Middleware function to authenticate requests
 exports.authenticate = (req, res, next) => {
-  // Verificar si hay un header de autorización
+  // Check if an authorization header is present
   if (!req.headers.authorization) {
     return res.status(401).send({ message: "No authorization token provided" });
   }
 
-  // Obtener el token del header de autorización
+  // Extract the token from the authorization header
   const token = req.headers.authorization.replace(/['"]+/g, "");
-  
-  // Verificar si el token está presente
+
+  // Verify if the token is present
   if (!token) {
     return res.status(401).send({ message: "Token not found" });
   }
 
-  // Dividir el token en segmentos
+  // Split the token into segments
   const segments = token.split('.');
-  
-  // Verificar si el token tiene el formato correcto
+
+  // Check if the token has the correct format
   if (segments.length !== 3) {
     return res.status(401).send({ message: "Invalid token format" });
   }
 
-  // Verificar el token
+  // Verify the token
   try {
     const payload = jwt.verify(token, secret);
 
-    // Verificar si el token ha expirado
+    // Check if the token has expired
     if (payload.exp <= moment().unix()) {
       return res.status(401).send({ message: "Token has expired" });
     }
 
-    // Si la verificación es exitosa, pasar la información del usuario a req.user
+    // If verification is successful, pass the user information to req.user
     req.user = payload;
     next();
   } catch (error) {
