@@ -18,40 +18,46 @@ export class CallClientComponent implements OnInit {
   };
   public time = { hour: 13, minute: 30 };
   public bntLoad = false;
-  public token = localStorage.getItem('token');
+  public token: string | null = localStorage.getItem('token');
   public calls: Array<any> = [];
-  public page = 1; // Definiendo la propiedad `page`
-  public pageSize = 10; // Definiendo el tamaño de la página
+  public page = 1;
+  public pageSize = 10;
 
   public data = false;
   public loadData = true;
 
   constructor(
-    private _route: ActivatedRoute,
-    private _clientService: ClientService
+    private route: ActivatedRoute,
+    private clientService: ClientService
   ) { }
 
   ngOnInit(): void {
-    this._route.params.subscribe((params) => {
+    // Get client ID from route parameters
+    this.route.params.subscribe((params) => {
       this.id = params['id'];
-      this._clientService.getClientCallsProsperccion(this.id,this.token).subscribe(
-        response=>{
-          if(response.data != undefined){
+      this.clientService.getClientCallsProsperccion(this.id, this.token).subscribe(
+        response => {
+          if (response.data !== undefined) {
             this.data = true;
             this.loadData = false;
-            this.init_data();
-          }else{
+            this.initData();
+          } else {
             this.data = false;
             this.loadData = false;
           }
+        },
+        error => {
+          console.error(error);
+          this.data = false;
+          this.loadData = false;
         }
       );
-    }
-    );
+    });
   }
 
-  init_data() {
-    this._clientService.getClientCallsProsperccion(this.id, this.token).subscribe(
+  // Initialize call data
+  initData(): void {
+    this.clientService.getClientCallsProsperccion(this.id, this.token).subscribe(
       response => {
         this.calls = response.data;
       },
@@ -61,33 +67,37 @@ export class CallClientComponent implements OnInit {
     );
   }
 
-  registerCall() {
+  // Register a new call
+  registerCall(): void {
     if (this.time) {
-      this.call.hour = this.time.hour + ':' + this.time.minute;
+      this.call.hour = `${this.time.hour}:${this.time.minute}`;
     }
 
     if (!this.call.date || !this.call.hour || !this.call.result) {
-      this.showNotification('Ingrese datos Correctamente', 'danger');
-    } else {
-      this.bntLoad = true;
-      this.call.client = this.id;
-      this.call.asesor = localStorage.getItem('_id');
-      this._clientService.createClientCallProsperccion(this.call, this.token).subscribe(
-        response => {
-          $('#modalLlamada').modal('hide');
-          this.showNotification('Llamada Registrada Correctamente', 'success');
-          this.bntLoad = false;
-        this.init_data(); // Refresh the list after registering a call
-        },
-        error => {
-          this.showNotification('Error al Registrar Llamada', 'danger');
-          this.bntLoad = false;
-        }
-      );
+      this.showNotification('Please fill out all fields correctly', 'danger');
+      return;
     }
+
+    this.bntLoad = true;
+    this.call.client = this.id;
+    this.call.asesor = localStorage.getItem('_id');
+
+    this.clientService.createClientCallProsperccion(this.call, this.token).subscribe(
+      response => {
+        $('#modalLlamada').modal('hide');
+        this.showNotification('Call registered successfully', 'success');
+        this.bntLoad = false;
+        this.initData(); // Refresh the list after registering a call
+      },
+      error => {
+        this.showNotification('Error registering call', 'danger');
+        this.bntLoad = false;
+      }
+    );
   }
 
-  private showNotification(message: string, type: string) {
+  // Show notifications
+  private showNotification(message: string, type: string): void {
     $.notify(message, {
       type: type,
       spacing: 10,

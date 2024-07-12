@@ -8,9 +8,6 @@ import { NgbPaginationModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common'; // Asegurarse de que CommonModule está importado
 import { NgxTinymceModule } from 'ngx-tinymce';
 
-
-
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
@@ -57,7 +54,7 @@ import { EmailClientComponent } from './components/buyer/properccion/email-clien
     InterestClientComponent,
     TaskClientComponent,
     CallClientComponent,
-    EmailClientComponent
+    EmailClientComponent,
   ],
   imports: [
     BrowserModule,
@@ -80,6 +77,6 @@ import { EmailClientComponent } from './components/buyer/properccion/email-clien
   ],
   providers: [],
   bootstrap: [AppComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule {}
