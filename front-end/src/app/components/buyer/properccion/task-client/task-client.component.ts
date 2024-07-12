@@ -12,107 +12,110 @@ declare var $: any;
 })
 export class TaskClientComponent implements OnInit {
   public id = '';
-
   public token = localStorage.getItem('token');
   public data = false;
   public loadData = true;
   public btnTask = false;
-  public page = 1; // Definiendo la propiedad `page`
-  public pageSize = 5; // Definiendo el tamaño de la página
+  public page = 1;
+  public pageSize = 5;
   public task: any = {
     asesor: '',
     type: '',
-    priority : '',
-
-
-  }
+    priority: '',
+    task: '',
+    hour: ''
+  };
   public tasks: Array<any> = [];
   public asesor: Array<any> = [];
   public time = { hour: 13, minute: 30 };
   public dates = GLOBAL.dates;
 
   constructor(
-    private _route: ActivatedRoute,
-    private _clientService: ClientService,
-    private _colloboratorService: CollaboratorService
+    private route: ActivatedRoute,
+    private clientService: ClientService,
+    private collaboratorService: CollaboratorService
   ) {}
 
   ngOnInit(): void {
-    this._route.params.subscribe((params) => {
+    // Get client ID from route parameters
+    this.route.params.subscribe((params) => {
       this.id = params['id'];
-      this._clientService
-        .getClientCallsProsperccion(this.id, this.token)
-        .subscribe((response) => {
-          if (response.data != undefined) {
-            this.data = true;
-            this.loadData = false;
-            this.initAsesor()
-            this.init_data();
-          } else {
-            this.data = false;
-            this.loadData = false;
-          }
-        });
+      this.clientService.getClientCallsProsperccion(this.id, this.token).subscribe((response) => {
+        if (response.data !== undefined) {
+          this.data = true;
+          this.loadData = false;
+          this.initAsesor();
+          this.initData();
+        } else {
+          this.data = false;
+          this.loadData = false;
+        }
+      });
     });
   }
-  initAsesor() {
-    this._colloboratorService.getCollaborators(this.token).subscribe(
+
+  // Initialize list of advisors
+  initAsesor(): void {
+    this.collaboratorService.getCollaborators(this.token).subscribe(
       (response) => {
         this.asesor = response.data;
       },
       (error) => {
-        console.log(error);
+        console.error(error);
       }
     );
   }
 
-  init_data() {
-
-    this._clientService.getClientTaskProsperccion(this.id,this.token).subscribe(
-      response => {
+  // Initialize task data
+  initData(): void {
+    this.clientService.getClientTaskProsperccion(this.id, this.token).subscribe(
+      (response) => {
         this.tasks = response.data;
       },
-      error => {
-        console.log(error);
+      (error) => {
+        console.error(error);
       }
     );
   }
 
-  registerTask()
-  {
+  // Register a new task
+  registerTask(): void {
     if (this.time) {
-      this.task.hour = this.time.hour + ':' + this.time.minute;
-    }
-    if (!this.task.asesor || !this.task.type || !this.task.priority || !this.task.task ) {
-      this.showNotification('Ingrese datos Correctamente', 'danger');
-    }
-    else {
-      this.btnTask = true;
-      this.task.client = this.id;
-      this.task.asesor = localStorage.getItem('_id');
-      this._clientService.createClientTaskProsperccion(this.task, this.token).subscribe(
-        response => {
-          $('#modalTarea').modal('hide');
-          this.task ={
-            asesor: '',
-            type: '',
-            priority : '',
-          };
-          this.showNotification('Llamada Registrada Correctamente', 'success');
-          this.btnTask = false;
-          this.init_data(); // Refresh the list after registering a call
-          
-        },
-        error => {
-          this.showNotification('Error al Registrar Llamada', 'danger');
-          this.btnTask = false;
-        }
-      );
+      this.task.hour = `${this.time.hour}:${this.time.minute}`;
     }
 
+    if (!this.task.asesor || !this.task.type || !this.task.priority || !this.task.task) {
+      this.showNotification('Please fill out all fields correctly', 'danger');
+      return;
+    }
+
+    this.btnTask = true;
+    this.task.client = this.id;
+    this.task.asesor = localStorage.getItem('_id');
+
+    this.clientService.createClientTaskProsperccion(this.task, this.token).subscribe(
+      (response) => {
+        $('#modalTarea').modal('hide');
+        this.task = {
+          asesor: '',
+          type: '',
+          priority: '',
+          task: '',
+          hour: ''
+        };
+        this.showNotification('Task registered successfully', 'success');
+        this.btnTask = false;
+        this.initData(); // Refresh the list after registering a task
+      },
+      (error) => {
+        this.showNotification('Error registering task', 'danger');
+        this.btnTask = false;
+      }
+    );
   }
 
-  private showNotification(message: string, type: string) {
+  // Show notifications
+  private showNotification(message: string, type: string): void {
     $.notify(message, {
       type: type,
       spacing: 10,
