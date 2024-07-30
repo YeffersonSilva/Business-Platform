@@ -1,6 +1,8 @@
 # CRM/ERP Administrative Platform with MEAN Stack
 
 This project is an administrative CRM/ERP platform developed with the MEAN Stack (MongoDB, Express, Angular, Node.js). The application allows efficient management of clients, collaborators, and administrative processes.
+![image](https://github.com/user-attachments/assets/848978a1-3b51-4a8a-8c4f-7ae844ca4f0c)
+
 
 ## Table of Contents
 
